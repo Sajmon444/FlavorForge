@@ -1,11 +1,21 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
-    // alias(libs.plugins.kotlin.compose.compiler)  ← ZAKOMENTOWANE - nie potrzebne bez Compose
+    // alias(libs.plugins.kotlin.compose.compiler)  ←  bez Compose
     alias(libs.plugins.hilt.android)
+}
+
+fun getLocalProperty(key: String, defaultValue: String = ""): String {
+    val properties = Properties()
+    val localProperties = rootProject.file("local.properties")
+    if (localProperties.exists()) {
+        properties.load(localProperties.inputStream())
+    }
+    return properties.getProperty(key, defaultValue)
 }
 
 android {
@@ -20,6 +30,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "SUPABASE_URL", "\"${getLocalProperty("supabase.url")}\"")
+        buildConfigField("String", "SUPABASE_KEY", "\"${getLocalProperty("supabase.key")}\"")
     }
 
     buildTypes {
@@ -45,8 +58,9 @@ android {
     }
 
     buildFeatures {
-        // compose = true  ← ZAKOMENTOWANE
+        // compose = true
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -57,9 +71,7 @@ dependencies {
     implementation(libs.androidx.activity)  // ← klasyczna Activity, nie compose
     implementation(libs.androidx.constraintlayout)
 
-    // ████████████████████████████████████████████
-    // COMPOSE - ZAKOMENTOWANE
-    // ████████████████████████████████████████████
+    // COMPOSE
     // implementation(libs.androidx.compose.ui)
     // implementation(libs.androidx.compose.ui.tooling.preview)
     // debugImplementation(libs.androidx.compose.ui.tooling)
@@ -71,9 +83,9 @@ dependencies {
     // implementation(libs.androidx.material3)  ← Compose Material3 - zakomentowane
     // implementation(libs.androidx.navigation.compose)  ← Navigation Compose - zakomentowane
 
-    // ████████████████████████████████████████████
-    // RECYCLERVIEW - DODANE
-    // ████████████████████████████████████████████
+
+    // RECYCLERVIEW
+
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
     // Networking

@@ -8,8 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import pl.edu.anstar.flavorforge.BuildConfig
 import pl.edu.anstar.flavorforge.data.remote.RecipeApiService
-import pl.edu.anstar.flavorforge.data.remote.SupabaseConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -29,11 +29,11 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                    .addHeader("apikey", SupabaseConfig.API_KEY)
-                    .addHeader("Authorization", "Bearer ${SupabaseConfig.API_KEY}")
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Prefer", "return=representation")
-                    .build()
+                    .addHeader("apikey", BuildConfig.SUPABASE_KEY)
+                .addHeader("Authorization", "Bearer ${BuildConfig.SUPABASE_KEY}")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Prefer", "return=representation")
+                .build()
                 chain.proceed(request)
             }
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -46,7 +46,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(SupabaseConfig.BASE_URL)
+            .baseUrl(BuildConfig.SUPABASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
