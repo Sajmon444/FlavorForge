@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
-    alias(libs.plugins.kotlin.compose.compiler)
+    // alias(libs.plugins.kotlin.compose.compiler)  ← ZAKOMENTOWANE - nie potrzebne bez Compose
     alias(libs.plugins.hilt.android)
 }
 
@@ -40,12 +40,13 @@ android {
     kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
-            freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
+            // freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")  ← ZAKOMENTOWANE
         }
     }
 
     buildFeatures {
-        compose = true
+        // compose = true  ← ZAKOMENTOWANE
+        viewBinding = true
     }
 }
 
@@ -53,20 +54,27 @@ dependencies {
     // AndroidX Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.activity)
+    implementation(libs.androidx.activity)  // ← klasyczna Activity, nie compose
     implementation(libs.androidx.constraintlayout)
 
-
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
+    // ████████████████████████████████████████████
+    // COMPOSE - ZAKOMENTOWANE
+    // ████████████████████████████████████████████
+    // implementation(libs.androidx.compose.ui)
+    // implementation(libs.androidx.compose.ui.tooling.preview)
+    // debugImplementation(libs.androidx.compose.ui.tooling)
+    // implementation(libs.androidx.activity.compose)
+    // implementation(libs.androidx.lifecycle.runtime.compose)
 
     // UI & Navigation
     implementation(libs.material)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.navigation.compose)
+    // implementation(libs.androidx.material3)  ← Compose Material3 - zakomentowane
+    // implementation(libs.androidx.navigation.compose)  ← Navigation Compose - zakomentowane
+
+    // ████████████████████████████████████████████
+    // RECYCLERVIEW - DODANE
+    // ████████████████████████████████████████████
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 
     // Networking
     implementation(libs.retrofit)
@@ -75,7 +83,12 @@ dependencies {
     // Dependency Injection & Coroutines
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    // implementation(libs.hilt.navigation.compose)  ← tylko dla Compose - zakomentowane
     implementation(libs.kotlinx.coroutines.android)
+
+    // Lifecycle ViewModel + LiveData (dla klasycznych View)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
 
     // Testing
     testImplementation(libs.junit)

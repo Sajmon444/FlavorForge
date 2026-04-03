@@ -1,6 +1,6 @@
 [versions]
 # Platforma
-kotlin = "2.3.0"
+kotlin = "2.0.21"
 agp = "8.13.0"
 
 # AndroidX Core
@@ -32,6 +32,7 @@ converterGson = "2.11.0"
 hiltAndroid = "2.57"
 kotlinxCoroutinesAndroid = "1.10.1"
 
+hiltNavigationCompose = "1.2.0"
 [libraries]
 # AndroidX Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -58,8 +59,8 @@ converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ve
 # DI & Coroutines
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltAndroid" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
-
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
