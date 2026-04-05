@@ -1,3 +1,29 @@
+
 <resources>
     <string name="app_name">FlavorForge</string>
+    <string name="sign_in_title">Sign In</string>
+    <string name="sign_up_title">Sign Up</string>
+    <string name="sign_in_subtitle">Hi there! Nice to see you again.</string>
+    <string name="sign_up_subtitle">Register for free to access more options.</string>
+    <string name="email_hint">Email:</string>
+    <string name="email_input_hint">Your email address</string>
+    <string name="password_hint">Password:</string>
+    <string name="password_input_hint">Your password</string>
+    <string name="forgot_password_text">Forgot Password?</string>
+    <string name="sign_in_button_text">Sign In</string>
+    <string name="sign_up_button_text">Sign Up</string>
+    <string name="continue_without_login_text">Continue without login</string>
+    <string name="go_to_sign_up_text">Sign Up</string>
+    <string name="go_to_sign_in_text">Sign In</string>
+    <string name="menu_home_text">Home</string>
+    <string name="what_we_are_cooking_text">What we are cooking today?</string>
+    <string name="search_recipes_text">Search recipes</string>
+    <string name="menu_recipes_text">Recipes</string>
+    <string name="menu_register_text">Register</string>
+    <string name="menu_settings_text">Settings</string>
+    <string name="terms_text">
+        <font color="#D1D6DB">I agree to the </font>
+        <font color="#FF4500"><b>Terms of Services and Privacy Policy.</b></font>
+    </string>
+
 </resources>
