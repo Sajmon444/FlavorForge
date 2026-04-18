@@ -1,0 +1,52 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <TextView
+        android:id="@+id/userHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User"
+        android:textSize="22sp"
+        android:padding="12dp"
+        android:gravity="center_vertical"/>
+
+    <!-- Przycisk 1 -->
+    <Button
+        android:id="@+id/btnHome"
+        style="@style/Button_drawer_menu"
+        android:text="home"
+/>
+
+    <!-- Przycisk 2 -->
+    <Button
+        android:id="@+id/btnRecipes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Przepisy"
+        android:background="?attr/selectableItemBackground"
+        android:padding="16dp"/>
+
+    <!-- Przycisk 3 -->
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rejestracja"
+        android:background="?attr/selectableItemBackground"
+        android:padding="16dp"/>
+
+    <!-- Przycisk 4 -->
+    <Button
+        android:id="@+id/btnSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ustawienia"
+        android:background="?attr/selectableItemBackground"
+        android:padding="16dp"/>
+</LinearLayout>

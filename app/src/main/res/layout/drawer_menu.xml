@@ -1,53 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="280dp"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
-
+    android:background="@color/white"
+    android:padding="16dp">
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="150dp"
         android:src="@drawable/logoff_bt"
-        android:layout_gravity="center_horizontal" />
+        android:background="@drawable/profile_picture"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:padding="0dp"
+        android:clipToOutline="true"/>
 
+    <!-- Icon -->
     <TextView
-        android:text="User"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="12dp" />
-
+        android:id="@+id/userHeader"
+        style="@style/User_drawer_menu"
+        android:text="@string/user"
+        />
     <TextView
-        android:text="Register for free to access more options"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="@string/register_for_free"
         android:gravity="center"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginTop="-10dp"
+        />
 
+
+    <!-- Przycisk 1 -->
     <Button
-        android:id="@+id/menuHome"
-        android:text="Home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/btnHome"
+        android:drawableLeft="@drawable/home_icon"
+        style="@style/Button_drawer_menu"
+        android:drawableRight="@drawable/arrow_right"
+        android:text="@string/Home"
+        />
 
+    <!-- Przycisk 2 -->
     <Button
-        android:id="@+id/menuRecipes"
-        android:text="Przepisy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
+        android:id="@+id/btnRecipes"
+        android:drawableLeft="@drawable/recipes_icon"
+        style="@style/Button_drawer_menu"
+        android:text="@string/recepies"
+        android:drawableRight="@drawable/arrow_right"
+        android:padding="16dp"/>
 
+    <!-- Przycisk 3 -->
     <Button
-        android:id="@+id/menuRegister"
-        android:text="Rejestracja"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
-
+        android:id="@+id/btnRegister"
+        android:drawableLeft="@drawable/list_icon"
+        style="@style/Button_drawer_menu"
+        android:text="@string/sign_in"
+        android:drawableRight="@drawable/arrow_right"
+        android:padding="16dp"/>
+    <!-- Przycisk 4 -->
     <Button
-        android:id="@+id/menuSettings"
-        android:text="Ustawienia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
+        android:id="@+id/btnLiked"
+        android:drawableLeft="@drawable/love"
+        style="@style/Button_drawer_menu"
+        android:text="@string/favorite"
+        android:drawableRight="@drawable/arrow_right"
+        android:padding="16dp"/>
 
+    <!-- Przycisk 4 -->
+    <Button
+        android:id="@+id/btnSettings"
+        android:layout_marginTop="150dp"
+        android:drawableLeft="@drawable/settings_icon"
+        style="@style/Button_drawer_menu"
+        android:text="@string/settings"
+        android:padding="16dp"/>
 </LinearLayout>

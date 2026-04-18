@@ -25,5 +25,19 @@
         <font color="#D1D6DB">I agree to the </font>
         <font color="#FF4500"><b>Terms of Services and Privacy Policy.</b></font>
     </string>
+    <string name="have_account">Have an Account? <font color="#FF4500"><b>Sign In</b></font></string>
+
+
+    <!-- Drawer_menu-->
+    <string name="user">User</string>
+    <string name="Home">Home</string>
+    <string name="recepies">Recipes</string>
+    <string name="settings">Settings</string>
+    <string name="sign_in">Sign In</string>
+    <string name="favorite">Favorite</string>
+    <string name="register_for_free">Register for free to \n access more options.</string>
+
+
+
 
 </resources>

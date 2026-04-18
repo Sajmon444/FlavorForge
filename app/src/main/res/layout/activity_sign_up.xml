@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/goToSignIn"
             style="@style/AppTextNormal_light_grey"
-            android:text="Have an Account? Sign In"
+            android:text="@string/have_account"
             android:layout_marginTop="16dp" />
 
     </LinearLayout>
