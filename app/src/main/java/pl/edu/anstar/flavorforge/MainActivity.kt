@@ -1,63 +1,63 @@
-//package pl.edu.anstar.flavorforge
-//
-//import android.os.Bundle
-//import androidx.activity.enableEdgeToEdge
-//import androidx.appcompat.app.AppCompatActivity
-//import androidx.core.view.ViewCompat
-//import androidx.core.view.WindowInsetsCompat
-//
-//class MainActivity : AppCompatActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
-//        setContentView(R.layout.activity_main)
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
-//    }
-//}
-
-
-//co5 s
 package pl.edu.anstar.flavorforge
 
+import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.drawerlayout.widget.DrawerLayout
 
 class MainActivity : AppCompatActivity() {
 
-    private val layouts = listOf(
-        R.layout.activity_main,
-        R.layout.activity_sign_in,
-        R.layout.activity_sign_up,
-        R.layout.drawer_menu,
-
-    )
-
-    private var index = 0
-    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
 
-        startLoop()
-    }
+        drawerLayout = findViewById(R.id.drawer_layout)
 
-    private fun startLoop() {
-        handler.post(object : Runnable {
-            override fun run() {
-                setContentView(layouts[index])
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
-                index = (index + 1) % layouts.size
+        findViewById<Button>(R.id.btnSearchRecipes).setOnClickListener {
+            startActivity(Intent(this, RecipesActivity::class.java))
+        }
 
-                handler.postDelayed(this, 5000) // 2 sekundy
-            }
-        })
+        findViewById<ImageView>(R.id.logo).setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+        
+        findViewById<ImageView>(R.id.btnMenu).setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        findViewById<Button>(R.id.btnHome).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+        
+        findViewById<Button>(R.id.btnRecipes).setOnClickListener {
+            startActivity(Intent(this, RecipesActivity::class.java))
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+        
+        findViewById<Button>(R.id.btnRegister).setOnClickListener {
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        findViewById<Button>(R.id.btnSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
     }
 }

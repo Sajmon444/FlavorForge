@@ -26,6 +26,10 @@ class ResultsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_results)
 
+        findViewById<android.widget.ImageView>(R.id.btnBack)?.setOnClickListener {
+            finish()
+        }
+
         rvRecipes = findViewById(R.id.rvRecipes)
         adapter = RecipesAdapter()
         rvRecipes.layoutManager = LinearLayoutManager(this)
