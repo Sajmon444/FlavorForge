@@ -1,97 +1,63 @@
+//package pl.edu.anstar.flavorforge
+//
+//import android.os.Bundle
+//import androidx.activity.enableEdgeToEdge
+//import androidx.appcompat.app.AppCompatActivity
+//import androidx.core.view.ViewCompat
+//import androidx.core.view.WindowInsetsCompat
+//
+//class MainActivity : AppCompatActivity() {
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        enableEdgeToEdge()
+//        setContentView(R.layout.activity_main)
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
+//    }
+//}
+
+
+//co5 s
 package pl.edu.anstar.flavorforge
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import androidx.activity.viewModels
+import android.os.Handler
+import android.os.Looper
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import dagger.hilt.android.AndroidEntryPoint
-import pl.edu.anstar.flavorforge.ui.search.SearchViewModel
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: SearchViewModel by viewModels()
-    private lateinit var etIngredient: EditText
-    private lateinit var btnAdd: Button
-    private lateinit var btnSearch: Button
-    private lateinit var rvIngredients: RecyclerView
-    private lateinit var adapter: IngredientsAdapter
+    private val layouts = listOf(
+        R.layout.activity_main,
+        R.layout.activity_sign_in,
+        R.layout.activity_sign_up,
+        R.layout.drawer_menu,
+
+    )
+
+    private var index = 0
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        enableEdgeToEdge()
 
-        etIngredient = findViewById(R.id.etIngredient)
-        btnAdd = findViewById(R.id.btnAdd)
-        btnSearch = findViewById(R.id.btnSearch)
-        rvIngredients = findViewById(R.id.rvIngredients)
+        startLoop()
+    }
 
-        adapter = IngredientsAdapter { ingredient ->
-            viewModel.removeIngredient(ingredient)
-        }
-        rvIngredients.layoutManager = LinearLayoutManager(this)
-        rvIngredients.adapter = adapter
+    private fun startLoop() {
+        handler.post(object : Runnable {
+            override fun run() {
+                setContentView(layouts[index])
 
-        viewModel.ingredients.observe(this) { ingredients ->
-            adapter.submitList(ingredients)
-            btnSearch.isEnabled = ingredients.isNotEmpty()
-        }
+                index = (index + 1) % layouts.size
 
-        btnAdd.setOnClickListener {
-            val text = etIngredient.text.toString().trim()
-            if (text.isNotEmpty()) {
-                viewModel.addIngredient(text)
-                etIngredient.setText("")
+                handler.postDelayed(this, 5000) // 2 sekundy
             }
-        }
-
-        btnSearch.setOnClickListener {
-            val ingredients = viewModel.ingredients.value ?: return@setOnClickListener
-            ResultsActivity.start(this, ingredients)
-        }
-    }
-}
-
-class IngredientsAdapter(
-    private val onRemove: (String) -> Unit
-) : RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
-
-    private var items: List<String> = emptyList()
-
-    fun submitList(newItems: List<String>) {
-        items = newItems
-        notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_ingredient, parent, false)
-        return ViewHolder(view, onRemove)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
-    }
-
-    override fun getItemCount() = items.size
-
-    class ViewHolder(
-        itemView: View,
-        private val onRemove: (String) -> Unit
-    ) : RecyclerView.ViewHolder(itemView) {
-        private val tvIngredient: TextView = itemView.findViewById(R.id.tvIngredient)
-        private val btnRemove: Button = itemView.findViewById(R.id.btnRemove)
-
-        fun bind(ingredient: String) {
-            tvIngredient.text = "• $ingredient"
-            btnRemove.setOnClickListener { onRemove(ingredient) }
-        }
+        })
     }
 }

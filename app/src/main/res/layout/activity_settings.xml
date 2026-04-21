@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ustawienia"
+            style="@style/AppTextTitle_orange"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Opis -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTextNormal_light_grey"
+            android:text="Dostosuj preferencje wyszukiwania przepisów."
+            android:layout_marginBottom="16dp" />
+
+        <!-- Suwak 1 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTextNormal_light_grey"
+            android:text="Ostrość potraw"
+            android:layout_marginBottom="4dp" />
+
+        <SeekBar
+            android:id="@+id/spiceSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Suwak 2 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTextNormal_light_grey"
+            android:text="Czas przygotowania"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp" />
+
+        <SeekBar
+            android:id="@+id/timeSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Suwak 3 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTextNormal_light_grey"
+            android:text="Zdrowotność"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp" />
+
+        <SeekBar
+            android:id="@+id/healthSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Przycisk -->
+        <Button
+            android:id="@+id/btnApplySettings"
+            style="@style/AppButton_orange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zastosuj"
+            android:layout_marginTop="32dp" />
+
+    </LinearLayout>
+</ScrollView>

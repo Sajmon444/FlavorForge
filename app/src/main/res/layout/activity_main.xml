@@ -1,68 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#243A63"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:gravity="center"
+    android:padding="24dp">
 
-    <!-- Input + Dodaj (obniżone) -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="12dp"
-        android:gravity="center_vertical">
-
-        <EditText
-            android:id="@+id/etIngredient"
-            android:layout_width="0dp"
-            android:layout_height="71dp"
-            android:layout_weight="1"
-            android:hint="Składnik"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:maxLines="1"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="Dodaj"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <!-- Lista składników -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="356dp"
         android:layout_height="wrap_content"
-        android:text="Dodane składniki:"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:layout_marginBottom="6dp" />
+        android:layout_marginTop="250dp"
+        android:layout_marginBottom="75dp"
+        android:textColor="@color/light_grey"
+        android:text="@string/what_we_are_cooking_text"
+        android:textSize="30sp"
+        android:gravity="center"
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvIngredients"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp" />
+        android:textStyle="bold" />
 
-    <!-- Przycisk Wyszukaj (też lekko obniżony) -->
     <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="WYSZUKAJ"
-        android:textSize="14sp"
-        android:enabled="false" />
+        android:id="@+id/btnSearchRecipes"
+        android:layout_width="289dp"
+        android:layout_height="67dp"
+        style="@style/AppButton_orange"
+        android:text="@string/search_recipes_text" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/logoff_bt" />
 
 </LinearLayout>
