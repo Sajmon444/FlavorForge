@@ -1,67 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#243A63">
+    android:orientation="vertical"
+    android:background="#243A63"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
 
-    <FrameLayout
+    <!-- Input + Dodaj -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
-        <LinearLayout
-            android:id="@+id/main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="24dp">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_vertical">
 
-            <TextView
-                android:layout_width="356dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="75dp"
-                android:textColor="@color/light_grey"
-                android:text="@string/what_we_are_cooking_text"
-                android:textSize="30sp"
-                android:gravity="center"
-                android:textStyle="bold" />
+        <EditText
+            android:id="@+id/etIngredient"
+            android:layout_width="0dp"
+            android:layout_height="67dp"
+            android:layout_weight="1"
+            android:hint="Składnik"
+            android:textColorHint="@color/light_grey"
+            android:textColor="@color/light_grey"
+            android:backgroundTint="@color/light_grey"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textSize="14sp" />
 
-            <Button
-                android:id="@+id/btnSearchRecipes"
-                android:layout_width="289dp"
-                android:layout_height="67dp"
-                style="@style/AppButton_orange"
-                android:text="@string/search_recipes_text" />
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="67dp"
+            android:layout_marginStart="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Dodaj"
+            android:textSize="14sp"
+            style="@style/AppButton_orange" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_marginTop="32dp"
-                android:contentDescription="Menu button"
-                android:src="@drawable/logoff_bt" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/btnMenu"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/list_icon"
-            android:layout_gravity="start|top"
-            android:layout_margin="16dp"
-            android:padding="8dp"
-            android:contentDescription="Otwórz menu" />
-            
-    </FrameLayout>
-
-    <FrameLayout
+    <!-- Lista składników -->
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start">
-        <include layout="@layout/drawer_menu" />
-    </FrameLayout>
-</androidx.drawerlayout.widget.DrawerLayout>
+        android:layout_height="wrap_content"
+        android:text="Dodane składniki:"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/light_grey"
+        android:layout_marginBottom="12dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
+
+    <!-- Przycisk Wyszukaj -->
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="289dp"
+        android:layout_height="67dp"
+        android:text="WYSZUKAJ"
+        android:textSize="14sp"
+        android:enabled="false"
+        style="@style/AppButton_orange"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>
