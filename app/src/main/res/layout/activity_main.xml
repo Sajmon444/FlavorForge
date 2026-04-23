@@ -1,67 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#243A63">
+    android:background="#243A63"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        
-        <LinearLayout
-            android:id="@+id/main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="24dp">
+    <TextView
+        android:layout_width="356dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:layout_marginBottom="75dp"
+        android:textColor="@color/light_grey"
+        android:text="@string/what_we_are_cooking_text"
+        android:textSize="30sp"
+        android:gravity="center"
 
-            <TextView
-                android:layout_width="356dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:layout_marginBottom="75dp"
-                android:textColor="@color/light_grey"
-                android:text="@string/what_we_are_cooking_text"
-                android:textSize="30sp"
-                android:gravity="center"
-                android:textStyle="bold" />
+        android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnSearchRecipes"
-                android:layout_width="289dp"
-                android:layout_height="67dp"
-                style="@style/AppButton_orange"
-                android:text="@string/search_recipes_text" />
+    <Button
+        android:id="@+id/btnSearchRecipes"
+        android:layout_width="289dp"
+        android:layout_height="67dp"
+        style="@style/AppButton_orange"
+        android:text="@string/search_recipes_text" />
 
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:layout_marginTop="32dp"
-                android:contentDescription="Menu button"
-                android:src="@drawable/logoff_bt" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/logoff_bt" />
 
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/btnMenu"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/list_icon"
-            android:layout_gravity="start|top"
-            android:layout_margin="16dp"
-            android:padding="8dp"
-            android:contentDescription="Otwórz menu" />
-            
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start">
-        <include layout="@layout/drawer_menu" />
-    </FrameLayout>
-</androidx.drawerlayout.widget.DrawerLayout>
+</LinearLayout>
