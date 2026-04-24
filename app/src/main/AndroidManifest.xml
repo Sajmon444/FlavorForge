@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Material3.Light.NoActionBar">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SignInActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -27,34 +27,32 @@
         </activity>
 
         <activity
-            android:name=".SearchActivity"
+            android:name=".MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".SignInActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-            
-        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
-            
+
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
-            
+
         <activity
             android:name=".RecipesActivity"
             android:exported="false" />
 
+        <activity android:name=".SearchActivity" />
+
+
         <activity
             android:name=".ResultsActivity"
             android:exported="false"
-            android:parentActivityName=".SearchActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SearchActivity" />
+                android:value=".MainActivity" />
         </activity>
 
     </application>

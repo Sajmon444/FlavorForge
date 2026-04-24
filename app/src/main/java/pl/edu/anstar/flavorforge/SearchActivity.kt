@@ -1,5 +1,6 @@
 package pl.edu.anstar.flavorforge
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,13 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.GravityCompat
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.anstar.flavorforge.ui.search.SearchViewModel
+import kotlin.text.trim
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
@@ -23,11 +27,13 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var btnSearch: Button
     private lateinit var rvIngredients: RecyclerView
     private lateinit var adapter: IngredientsAdapter
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        drawerLayout = findViewById(R.id.drawerLayout)
         etIngredient = findViewById(R.id.etIngredient)
         btnAdd = findViewById(R.id.btnAdd)
         btnSearch = findViewById(R.id.btnSearch)
@@ -36,6 +42,7 @@ class SearchActivity : AppCompatActivity() {
         adapter = IngredientsAdapter { ingredient ->
             viewModel.removeIngredient(ingredient)
         }
+
         rvIngredients.layoutManager = LinearLayoutManager(this)
         rvIngredients.adapter = adapter
 
@@ -55,6 +62,43 @@ class SearchActivity : AppCompatActivity() {
         btnSearch.setOnClickListener {
             val ingredients = viewModel.ingredients.value ?: return@setOnClickListener
             ResultsActivity.start(this, ingredients)
+        }
+
+        findViewById<View>(R.id.btnFilters).setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.END)
+        }
+
+        findViewById<View>(R.id.btnApplyFilters).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.END)
+        }
+
+        findViewById<View>(R.id.btnMenu).setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        findViewById<Button>(R.id.btnHome).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnRecipes).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            startActivity(Intent(this, RecipesActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnRegister).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            startActivity(Intent(this, SignInActivity::class.java))
+        }
+
+//        findViewById<Button>(R.id.btnLiked).setOnClickListener {
+//            drawerLayout.closeDrawer(GravityCompat.START)
+//            startActivity(Intent(this, LikedActivity::class.java))
+//        }
+
+        findViewById<Button>(R.id.btnSettings).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
 }
@@ -86,6 +130,7 @@ class IngredientsAdapter(
         itemView: View,
         private val onRemove: (String) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
+
         private val tvIngredient: TextView = itemView.findViewById(R.id.tvIngredient)
         private val btnRemove: Button = itemView.findViewById(R.id.btnRemove)
 

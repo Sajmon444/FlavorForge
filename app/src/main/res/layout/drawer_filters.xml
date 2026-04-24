@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true"
+    android:layout_gravity="end"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filtry"
+            style="@style/AppTextTitle_orange"
+            android:layout_marginBottom="32dp" />
+
+        <!-- POZIOM TRUDNOŚCI -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Poziom trudności"
+            style="@style/AppTextNormal_orange"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <CheckBox
+            android:id="@+id/cbEasy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Łatwe"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <CheckBox
+            android:id="@+id/cbMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Średnie"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <CheckBox
+            android:id="@+id/cbHard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trudne"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_marginVertical="24dp" />
+
+        <!-- CZAS PRZYGOTOWANIA -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Czas przygotowania"
+            style="@style/AppTextNormal_orange"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <RadioGroup
+            android:id="@+id/rgPreparationTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbTime30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Do 30 min"
+                style="@style/AppTextNormal_light_grey"
+                android:buttonTint="@color/orange" />
+
+            <RadioButton
+                android:id="@+id/rbTime60"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Do 60 min"
+                style="@style/AppTextNormal_light_grey"
+                android:buttonTint="@color/orange" />
+
+            <RadioButton
+                android:id="@+id/rbTimeAny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dowolny"
+                style="@style/AppTextNormal_light_grey"
+                android:buttonTint="@color/orange"
+                android:checked="true" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_marginVertical="24dp" />
+
+        <!-- DIETA -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dieta"
+            style="@style/AppTextNormal_orange"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <CheckBox
+            android:id="@+id/cbVege"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wegetariańskie"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <CheckBox
+            android:id="@+id/cbVegan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wegańskie"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <CheckBox
+            android:id="@+id/cbGlutenFree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bezglutenowe"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:minHeight="32dp" />
+
+        <Button
+            android:id="@+id/btnApplyFilters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppButton_orange"
+            android:text="Zastosuj filtry"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnClearFilters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:text="Wyczyść wszystko"
+            style="@style/AppTextNormal_light_grey"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+</ScrollView>
