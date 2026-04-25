@@ -1,5 +1,6 @@
 package pl.edu.anstar.flavorforge.data.remote
 
+import pl.edu.anstar.flavorforge.data.model.RecipeDetails
 import pl.edu.anstar.flavorforge.data.model.RecipeSearchResult
 import pl.edu.anstar.flavorforge.data.model.SearchRequest
 import retrofit2.Response
@@ -15,5 +16,6 @@ interface RecipeApiService {
     @GET("recipes")
     suspend fun getRecipesByIds(@Query("id") idFilter: String): Response<List<RecipeSearchResult>>
 
-
+    @GET("recipes")
+    suspend fun getRecipeDetails(@Query("id") idFilter: String): Response<List<RecipeDetails>>
 }

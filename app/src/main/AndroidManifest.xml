@@ -55,6 +55,10 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity
+            android:name=".RecipeDetailsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package pl.edu.anstar.flavorforge.data.repository
 
+import pl.edu.anstar.flavorforge.data.model.RecipeDetails
 import pl.edu.anstar.flavorforge.data.model.RecipeSearchResult
 import pl.edu.anstar.flavorforge.data.model.SearchRequest
 import pl.edu.anstar.flavorforge.data.remote.RecipeApiService
@@ -43,4 +44,16 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getRecipeDetails(id: Int): Result<RecipeDetails> {
+        return try {
+            val response = apiService.getRecipeDetails("eq.$id")
+            if (response.isSuccessful && !response.body().isNullOrEmpty()) {
+                Result.success(response.body()!!.first())
+            } else {
+                Result.failure(Exception("Nie znaleziono szczegółów przepisu"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
