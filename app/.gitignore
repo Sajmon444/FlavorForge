@@ -1,14 +1,16 @@
 # IDE
 .idea/
 *.iml
+
+# Build
 .gradle/
 build/
-capture/
+*/build/
 
-# Kotlin i Logi
+# Kotlin / logi
 .kotlin/
-**/errors/*.log
+*.log
 
-# Lokalne pliki konfiguracyjne
+# Lokalne pliki
 local.properties
 .DS_Store

@@ -17,8 +17,24 @@ class RecipeRepositoryImpl @Inject constructor(
         return try {
             val request = SearchRequest(ingredients, maxMissing)
             val response = apiService.searchRecipes(request)
+
             if (response.isSuccessful && response.body() != null) {
-                Result.success(response.body()!!)
+                val searchResults = response.body()!!
+                if (searchResults.isEmpty()) return Result.success(emptyList())
+
+                val ids = searchResults.joinToString(",") { it.id.toString() }
+                val detailsResponse = apiService.getRecipesByIds("in.($ids)")
+
+                if (detailsResponse.isSuccessful && detailsResponse.body() != null) {
+                    val detailsMap = detailsResponse.body()!!.associateBy { it.id }
+
+                    val enrichedResults = searchResults.map { result ->
+                        result.copy(description = detailsMap[result.id]?.description)
+                    }
+                    Result.success(enrichedResults)
+                } else {
+                    Result.success(searchResults)
+                }
             } else {
                 Result.failure(Exception("Błąd API"))
             }
@@ -26,4 +42,5 @@ class RecipeRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
 }
