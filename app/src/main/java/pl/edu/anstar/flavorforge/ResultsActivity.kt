@@ -33,7 +33,9 @@ class ResultsActivity : AppCompatActivity() {
         }
 
         rvRecipes = findViewById(R.id.rvRecipes)
-        adapter = RecipesAdapter()
+        adapter = RecipesAdapter { recipeId ->
+            RecipeDetailsActivity.start(this, recipeId)
+        }
         rvRecipes.layoutManager = LinearLayoutManager(this)
         rvRecipes.adapter = adapter
 
@@ -57,7 +59,9 @@ class ResultsActivity : AppCompatActivity() {
     }
 }
 
-class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
+class RecipesAdapter(
+    private val onItemClick: (Int) -> Unit
+) : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
     private var items: List<RecipeSearchResult> = emptyList()
 
@@ -69,7 +73,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_recipe, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, onItemClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -78,7 +82,10 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
     override fun getItemCount() = items.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(
+        itemView: View,
+        private val onItemClick: (Int) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
         private val ivRecipe: ImageView = itemView.findViewById(R.id.ivRecipe)
         private val tvTitle: TextView = itemView.findViewById(R.id.tvRecipeTitle)
         private val tvDescription: TextView = itemView.findViewById(R.id.tvRecipeDescription)
@@ -86,6 +93,8 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
         fun bind(recipe: RecipeSearchResult) {
             tvTitle.text = recipe.title
             tvDescription.text = recipe.description
+
+            itemView.setOnClickListener { onItemClick(recipe.id) }
 
             Glide.with(itemView.context)
                 .load(recipe.imageUrl)
