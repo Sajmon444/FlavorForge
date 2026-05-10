@@ -1,41 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout_results"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#243A63"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-    <!-- Przycisk powrotu -->
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/arrow_left"
-        android:padding="8dp"
-        android:layout_marginBottom="24dp"
-        android:layout_gravity="start"
-        android:contentDescription="Wróć" />
-
-    <!-- Nagłówek -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wyniki wyszukiwania"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/light_grey"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="32dp" />
-
-    <!-- Lista przepisów -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecipes"
+    <!-- GŁÓWNA TREŚĆ -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/background"
+        android:padding="24dp">
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/arrow_left"
+                android:padding="8dp"
+                android:layout_alignParentStart="true"
+                android:contentDescription="@string/back_button_desc" />
+
+            <ImageView
+                android:id="@+id/btnFilter"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/list_icon"
+                android:padding="8dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/filters_button_text" />
+        </RelativeLayout>
+
+        <!-- Nagłówek -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/results_title"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/light_grey"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Lista przepisów -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRecipes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp" />
+
+    </LinearLayout>
+
+    <!-- PRAWY DRAWER Z FILTRAMI -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end">
+        <include layout="@layout/drawer_filters" />
+    </FrameLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
