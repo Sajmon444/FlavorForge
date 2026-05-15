@@ -47,4 +47,40 @@ class AuthRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    override suspend fun signIn(email: String, password: String): Result<SignUpResponse> {
+        return try {
+            val request = SignInRequest(email, password)
+            Log.d("AuthRepo", "Attempting signIn for: $email")
+
+            val response = authApiService.signIn(request = request)
+
+            if (response.isSuccessful) {
+                val body = response.body()
+                Log.d("AuthRepo", "SignIn successful. Body: $body")
+                if (body != null) {
+                    Result.success(body)
+                } else {
+                    Log.e("AuthRepo", "SignIn successful but body is null")
+                    Result.failure(Exception("Response body is null"))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                Log.e("AuthRepo", "SignIn failed. Code: ${response.code()}, Error Body: $errorBody")
+
+                val errorResponse = try {
+                    gson.fromJson(errorBody, SupabaseError::class.java)
+                } catch (e: Exception) {
+                    Log.e("AuthRepo", "Could not parse error JSON", e)
+                    null
+                }
+
+                val errorMessage = errorResponse?.message ?: "Login failed (Status: ${response.code()})"
+                Result.failure(Exception(errorMessage))
+            }
+        } catch (e: Exception) {
+            Log.e("AuthRepo", "Exception during signIn", e)
+            Result.failure(e)
+        }
+    }
 }
