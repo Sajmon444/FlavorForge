@@ -10,12 +10,12 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RecipeApiService {
-    @POST("rpc/search_recipes")
+    @POST("/rest/v1/rpc/search_recipes")
     suspend fun searchRecipes(@Body request: SearchRequest): Response<List<RecipeSearchResult>>
 
-    @GET("recipes")
+    @GET("/rest/v1/recipes")
     suspend fun getRecipesByIds(@Query("id") idFilter: String): Response<List<RecipeSearchResult>>
 
-    @GET("recipes")
+    @GET("/rest/v1/recipes")
     suspend fun getRecipeDetails(@Query("id") idFilter: String): Response<List<RecipeDetails>>
 }
