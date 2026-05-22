@@ -32,6 +32,7 @@
             android:layout_marginBottom="4dp" />
 
         <TextView
+            android:id="@+id/tvUserSubHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register_for_free"
