@@ -10,8 +10,15 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import dagger.hilt.android.AndroidEntryPoint
+import pl.edu.anstar.flavorforge.data.local.SessionManager
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     private lateinit var drawerLayout: DrawerLayout
 
@@ -60,6 +67,14 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSettings).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
             drawerLayout.closeDrawer(GravityCompat.START)
+        }
+
+        findViewById<Button>(R.id.btnLogout).setOnClickListener {
+            sessionManager.clearSession()
+            val intent = Intent(this, SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
 
         findViewById<Button>(R.id.btnApplyFilters)?.setOnClickListener {
