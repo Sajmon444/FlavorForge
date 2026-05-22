@@ -6,13 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import pl.edu.anstar.flavorforge.data.local.SessionManager
 import pl.edu.anstar.flavorforge.data.model.SignUpResponse
 import pl.edu.anstar.flavorforge.domain.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val sessionManager: SessionManager
 ) : ViewModel() {
 
     private val _signInResult = MutableLiveData<Result<SignUpResponse>>()
@@ -20,6 +22,8 @@ class SignInViewModel @Inject constructor(
 
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> = _isLoading
+
+    fun isUserLoggedIn(): Boolean = sessionManager.isLoggedIn()
 
     fun signIn(email: String, password: String) {
         _isLoading.value = true

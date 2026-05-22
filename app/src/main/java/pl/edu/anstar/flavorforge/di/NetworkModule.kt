@@ -1,14 +1,17 @@
 package pl.edu.anstar.flavorforge.di
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import pl.edu.anstar.flavorforge.BuildConfig
+import pl.edu.anstar.flavorforge.data.local.SessionManager
 import pl.edu.anstar.flavorforge.data.remote.AuthApiService
 import pl.edu.anstar.flavorforge.data.remote.RecipeApiService
 import retrofit2.Retrofit
@@ -67,5 +70,11 @@ object NetworkModule {
     @Singleton
     fun provideAuthApiService(retrofit: Retrofit): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSessionManager(@ApplicationContext context: Context): SessionManager {
+        return SessionManager(context)
     }
 }

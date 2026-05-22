@@ -2,6 +2,7 @@ package pl.edu.anstar.flavorforge.data.repository
 
 import android.util.Log
 import com.google.gson.Gson
+import pl.edu.anstar.flavorforge.data.local.SessionManager
 import pl.edu.anstar.flavorforge.data.model.*
 import pl.edu.anstar.flavorforge.data.remote.AuthApiService
 import pl.edu.anstar.flavorforge.domain.repository.AuthRepository
@@ -9,7 +10,8 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val authApiService: AuthApiService,
-    private val gson: Gson
+    private val gson: Gson,
+    private val sessionManager: SessionManager
 ) : AuthRepository {
 
     override suspend fun signUp(email: String, password: String, name: String): Result<SignUpResponse> {
@@ -23,6 +25,7 @@ class AuthRepositoryImpl @Inject constructor(
                 val body = response.body()
                 Log.d("AuthRepo", "SignUp successful. Body: $body")
                 if (body != null) {
+                    body.accessToken?.let { sessionManager.saveSession(it) }
                     Result.success(body)
                 } else {
                     Log.e("AuthRepo", "SignUp successful but body is null")
@@ -59,6 +62,7 @@ class AuthRepositoryImpl @Inject constructor(
                 val body = response.body()
                 Log.d("AuthRepo", "SignIn successful. Body: $body")
                 if (body != null) {
+                    body.accessToken?.let { sessionManager.saveSession(it) }
                     Result.success(body)
                 } else {
                     Log.e("AuthRepo", "SignIn successful but body is null")
