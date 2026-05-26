@@ -19,6 +19,7 @@
             android:orientation="horizontal"
             android:layout_marginBottom="24dp"
             android:gravity="center_vertical">
+
             <ImageView
                 android:id="@+id/btnMenu"
                 android:layout_width="48dp"
@@ -26,7 +27,9 @@
                 android:src="@drawable/list_icon"
                 android:padding="8dp"
                 android:contentDescription="@string/menu_title" />
-            <EditText
+
+            <!-- ZMIENIONE: EditText → AutoCompleteTextView -->
+            <AutoCompleteTextView
                 android:id="@+id/etIngredient"
                 android:layout_width="0dp"
                 android:layout_height="67dp"

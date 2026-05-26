@@ -99,5 +99,62 @@
     <string name="settings_time">Preparation time</string>
     <string name="settings_health">Healthiness</string>
     <string name="apply_settings">Apply</string>
+    <string name="settings_theme">Select theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System</string>
+
+
+    <string-array name="ingredients_suggestions">
+        <item>Avocado</item>
+        <item>Basil</item>
+        <item>Onion</item>
+        <item>Puff pastry</item>
+        <item>Sugar</item>
+        <item>Zucchini</item>
+        <item>Curry</item>
+        <item>Garlic</item>
+        <item>Apples</item>
+        <item>Eggs</item>
+        <item>Egg</item>
+        <item>Kabanos sausage</item>
+        <item>Couscous</item>
+        <item>Dill</item>
+        <item>Chicken</item>
+        <item>Salmon</item>
+        <item>Mayonnaise</item>
+        <item>Pasta</item>
+        <item>Butter</item>
+        <item>Frozen vegetables mix</item>
+        <item>Coconut milk</item>
+        <item>Milk</item>
+        <item>Mozzarella</item>
+        <item>Olive oil</item>
+        <item>Olives</item>
+        <item>Cucumber</item>
+        <item>Pepper</item>
+        <item>Penne</item>
+        <item>Basil pesto</item>
+        <item>Black pepper</item>
+        <item>Tomato</item>
+        <item>Cherry tomatoes</item>
+        <item>Rice</item>
+        <item>Cottage cheese</item>
+        <item>Feta cheese</item>
+        <item>Gouda cheese</item>
+        <item>Yellow cheese</item>
+        <item>Salt</item>
+        <item>BBQ sauce</item>
+        <item>Soy sauce</item>
+        <item>Spaghetti</item>
+        <item>Chives</item>
+        <item>Ham</item>
+        <item>Cream</item>
+        <item>Tortilla</item>
+        <item>Canned tuna</item>
+        <item>Curd cheese</item>
+        <item>Water</item>
+        <item>Potatoes</item>
+    </string-array>
 
 </resources>

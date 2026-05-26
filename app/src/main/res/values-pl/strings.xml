@@ -99,5 +99,62 @@
     <string name="settings_time">Czas przygotowania</string>
     <string name="settings_health">Zdrowotność</string>
     <string name="apply_settings">Zastosuj</string>
+    <string name="settings_theme">Motyw aplikacji</string>
+    <string name="theme_light">Jasny</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_system">Systemowy</string>
+
+    <string-array name="ingredients_suggestions">
+        <item>Awokado</item>
+        <item>Bazylia</item>
+        <item>Cebula</item>
+        <item>Ciasto francuskie</item>
+        <item>Cukier</item>
+        <item>Cukinia</item>
+        <item>Curry</item>
+        <item>Czosnek</item>
+        <item>Jabłka</item>
+        <item>Jajka</item>
+        <item>Jajo</item>
+        <item>Kabanosy</item>
+        <item>Kasza kuskus</item>
+        <item>Koper</item>
+        <item>Kurczak</item>
+        <item>Łosoś</item>
+        <item>Majonez</item>
+        <item>Makaron</item>
+        <item>Masło</item>
+        <item>Mieszanka warzyw mrożonych</item>
+        <item>Mleczko kokosowe</item>
+        <item>Mleko</item>
+        <item>Mozzarella</item>
+        <item>Oliwa z oliwek</item>
+        <item>Oliwki</item>
+        <item>Ogórek</item>
+        <item>Papryka</item>
+        <item>Penne</item>
+        <item>Pesto bazyliowe</item>
+        <item>Pieprz czarny</item>
+        <item>Pomidor</item>
+        <item>Pomidorki koktajlowe</item>
+        <item>Ryż</item>
+        <item>Ser biały</item>
+        <item>Ser feta</item>
+        <item>Ser gouda</item>
+        <item>Ser żółty</item>
+        <item>Sól</item>
+        <item>Sos BBQ</item>
+        <item>Sos sojowy</item>
+        <item>Spaghetti</item>
+        <item>Szczypiorek</item>
+        <item>Szynka</item>
+        <item>Śmietana</item>
+        <item>Tortilla</item>
+        <item>Tuńczyk w puszce</item>
+        <item>Twaróg</item>
+        <item>Woda</item>
+        <item>Ziemniaki</item>
+    </string-array>
+
 
 </resources>
