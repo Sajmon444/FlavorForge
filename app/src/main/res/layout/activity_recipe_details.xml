@@ -79,6 +79,35 @@
                 android:lineSpacingExtra="4dp"
                 tools:text="Proste śniadanie białkowe." />
 
+            <!-- Kategorie (typ dania i dieta) -->
+            <LinearLayout
+                android:id="@+id/layoutCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Kategorie:"
+                    android:textColor="@color/orange"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvRecipeCategories"
+                    style="@style/AppTextNormal_light_grey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="4dp"
+                    android:textStyle="italic"
+                    tools:text="Śniadanie • Wegetariańskie" />
+            </LinearLayout>
+
             <!-- Sekcja instrukcji -->
             <TextView
                 android:layout_width="match_parent"

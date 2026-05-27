@@ -22,13 +22,12 @@ class ResultsViewModel @Inject constructor(
 
     private var allRecipes: List<RecipeSearchResult> = emptyList()
 
-    fun searchRecipes(ingredients: List<String>, maxMissing: Int) {
+    fun searchRecipes(ingredients: List<String>, maxMissing: Int, onComplete: () -> Unit = { clearFilters() }) {
         viewModelScope.launch {
             searchUseCase(ingredients, maxMissing).fold(
                 onSuccess = { results ->
                     allRecipes = results
-                    // Initially apply settings filtering
-                    clearFilters()
+                    onComplete()
                 },
                 onFailure = { /* ignoruj błąd */ }
             )
@@ -43,7 +42,13 @@ class ResultsViewModel @Inject constructor(
         maxCalories: Int?,
         vege: Boolean,
         vegan: Boolean,
-        glutenFree: Boolean
+        meat: Boolean,
+        fish: Boolean,
+        breakfast: Boolean,
+        lunch: Boolean,
+        dinner: Boolean,
+        dessert: Boolean,
+        snacks: Boolean
     ) {
         val sp = sessionManager.getSettingsPrefs()
         val settingsPrepProgress = sp.getInt("settings_prep_time", 12)
@@ -77,27 +82,37 @@ class ResultsViewModel @Inject constructor(
                 (easy && isEasy) || (medium && isMedium) || (hard && isHard)
             }
 
-            // 2. Diet/Categories Filter
-            val vegeMatches = if (!vege) true else {
+            // 2. Diet Filter (Exact Match with Polish & English fallback)
+            val dietMatches = if (!vege && !vegan && !meat && !fish) {
+                true
+            } else {
                 recipe.categories?.any { cat ->
-                    val c = cat.lowercase()
-                    c.contains("vege") || c.contains("vegetarian") || c.contains("wegetarian")
-                } ?: false
-            }
-            val veganMatches = if (!vegan) true else {
-                recipe.categories?.any { cat ->
-                    val c = cat.lowercase()
-                    c.contains("vegan") || c.contains("wegańsk")
-                } ?: false
-            }
-            val glutenFreeMatches = if (!glutenFree) true else {
-                recipe.categories?.any { cat ->
-                    val c = cat.lowercase()
-                    c.contains("gluten") || c.contains("bezgluten")
+                    val trimmedCat = cat.trim()
+                    (vege && (trimmedCat.equals("Wegetariańskie", ignoreCase = true) || trimmedCat.equals("vegetarian", ignoreCase = true))) ||
+                    (vegan && (trimmedCat.equals("Wegańskie", ignoreCase = true) || trimmedCat.equals("vegan", ignoreCase = true))) ||
+                    (meat && (trimmedCat.equals("Mięsne", ignoreCase = true) || trimmedCat.equals("meat", ignoreCase = true))) ||
+                    (fish && (trimmedCat.equals("Ryby", ignoreCase = true) || trimmedCat.equals("Ryba", ignoreCase = true) || trimmedCat.equals("fish", ignoreCase = true)))
                 } ?: false
             }
 
-            diffMatches && vegeMatches && veganMatches && glutenFreeMatches
+            // 3. Meal Type Filter (Exact OR-Match with Polish & English fallback)
+            // LUNCH is cbMealLunch (text: "Lunch"). LUNCH in DB matches "Obiad" (slug "lunch").
+            // DINNER is cbMealDinner (text: "Obiad"). DINNER in DB matches "Kolacja" (slug "dinner").
+            // So if dinner is checked, we also match "Obiad"! If lunch is checked, we also match "Obiad"!
+            val mealMatches = if (!breakfast && !lunch && !dinner && !dessert && !snacks) {
+                true
+            } else {
+                recipe.categories?.any { cat ->
+                    val trimmedCat = cat.trim()
+                    (breakfast && (trimmedCat.equals("Śniadanie", ignoreCase = true) || trimmedCat.equals("breakfast", ignoreCase = true))) ||
+                    (lunch && (trimmedCat.equals("Obiad", ignoreCase = true) || trimmedCat.equals("lunch", ignoreCase = true))) ||
+                    (dinner && (trimmedCat.equals("Kolacja", ignoreCase = true) || trimmedCat.equals("Obiad", ignoreCase = true) || trimmedCat.equals("dinner", ignoreCase = true) || trimmedCat.equals("lunch", ignoreCase = true))) ||
+                    (dessert && (trimmedCat.equals("Deser", ignoreCase = true) || trimmedCat.equals("dessert", ignoreCase = true))) ||
+                    (snacks && (trimmedCat.equals("Szybkie przekąski", ignoreCase = true) || trimmedCat.equals("Przekąski", ignoreCase = true) || trimmedCat.equals("snacks", ignoreCase = true)))
+                } ?: false
+            }
+
+            diffMatches && dietMatches && mealMatches
         }
         _recipes.value = filtered
     }
@@ -111,7 +126,67 @@ class ResultsViewModel @Inject constructor(
             maxCalories = null,
             vege = false,
             vegan = false,
-            glutenFree = false
+            meat = false,
+            fish = false,
+            breakfast = false,
+            lunch = false,
+            dinner = false,
+            dessert = false,
+            snacks = false
+        )
+    }
+    companion object {
+        private val ingredientCategories = mapOf(
+            "jajka" to "nabiał",
+            "mąka pszenna" to "produkty zbożowe",
+            "cukier" to "produkty spożywcze",
+            "mleko" to "nabiał",
+            "pomidor" to "warzywa",
+            "makaron" to "produkty zbożowe",
+            "ser żółty" to "nabiał",
+            "bazylia" to "przyprawy",
+            "masło" to "nabiał",
+            "woda" to "napoje",
+            "cebula" to "warzywa",
+            "czosnek" to "warzywa",
+            "sól" to "przyprawy",
+            "pieprz czarny" to "przyprawy",
+            "ziemniaki" to "warzywa",
+            "kurczak" to "mięso",
+            "łosoś" to "ryba",
+            "śmietana" to "nabiał",
+            "twaróg" to "nabiał",
+            "szczypiorek" to "warzywa",
+            "oliwa z oliwek" to "tłuszcze",
+            "majonez" to "produkty spożywcze",
+            "szynka" to "mięso",
+            "ogórek" to "warzywa",
+            "ryż" to "produkty zbożowe",
+            "cukinia" to "warzywa",
+            "mozzarella" to "nabiał",
+            "tuńczyk w puszce" to "ryba",
+            "kukurydza konserwowa" to "warzywa",
+            "awokado" to "warzywa",
+            "kabanosy" to "mięso",
+            "oliwki" to "warzywa",
+            "pesto bazyliowe" to "produkty spożywcze",
+            "jabłka" to "owoce",
+            "cynamon" to "przyprawy",
+            "kasza kuskus" to "produkty zbożowe",
+            "ser feta" to "nabiał",
+            "pomidorki koktajlowe" to "warzywa",
+            "mleczko kokosowe" to "produkty spożywcze",
+            "curry" to "przyprawy",
+            "ciasto francuskie" to "produkty zbożowe",
+            "sos bbq" to "produkty spożywcze",
+            "miód" to "produkty spożywcze",
+            "tortilla" to "produkty zbożowe",
+            "mieszanka warzyw mrożonych" to "warzywa",
+            "sos sojowy" to "produkty spożywcze",
+            "koper" to "przyprawy",
+            "chleb" to "produkty zbożowe",
+            "sok z cytryny" to "produkty spożywcze",
+            "jogurt naturalny" to "nabiał"
         )
     }
 }

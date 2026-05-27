@@ -10,7 +10,8 @@ data class RecipeDetails(
     @SerializedName("prep_time") val prepTime: Int?,
     @SerializedName("difficulty") val difficulty: String?,
     @SerializedName("image_url") val imageUrl: String?,
-    @SerializedName("calories_total") val caloriesTotal: Int?
+    @SerializedName("calories_total") val caloriesTotal: Int?,
+    val categories: List<String>? = null
 )
 
 data class InstructionStep(

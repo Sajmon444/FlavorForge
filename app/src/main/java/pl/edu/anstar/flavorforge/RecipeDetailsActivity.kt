@@ -33,6 +33,8 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private lateinit var tvInstructions: TextView
     private lateinit var btnBack: ImageView
     private lateinit var btnFavorite: ImageView
+    private lateinit var layoutCategories: android.view.View
+    private lateinit var tvCategories: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +46,8 @@ class RecipeDetailsActivity : AppCompatActivity() {
         tvInstructions = findViewById(R.id.tvRecipeInstructions)
         btnBack = findViewById(R.id.btnBack)
         btnFavorite = findViewById(R.id.btnFavorite)
+        layoutCategories = findViewById(R.id.layoutCategories)
+        tvCategories = findViewById(R.id.tvRecipeCategories)
 
         btnBack.setOnClickListener { finish() }
 
@@ -96,6 +100,14 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private fun displayDetails(details: RecipeDetails) {
         tvTitle.text = details.title
         tvDescription.text = details.description
+
+        val cats = details.categories
+        if (!cats.isNullOrEmpty()) {
+            layoutCategories.visibility = android.view.View.VISIBLE
+            tvCategories.text = cats.joinToString(" • ")
+        } else {
+            layoutCategories.visibility = android.view.View.GONE
+        }
 
         val instructionsText = details.instructions
             ?.sortedBy { it.step }

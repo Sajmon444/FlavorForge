@@ -139,10 +139,18 @@
                 android:buttonTint="@color/orange" />
 
             <RadioButton
-                android:id="@+id/rbDietGlutenFree"
+                android:id="@+id/rbDietMeat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/diet_gluten_free"
+                android:text="@string/diet_meat"
+                style="@style/AppTextNormal_light_grey"
+                android:buttonTint="@color/orange" />
+
+            <RadioButton
+                android:id="@+id/rbDietFish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diet_fish"
                 style="@style/AppTextNormal_light_grey"
                 android:buttonTint="@color/orange" />
 
@@ -155,6 +163,61 @@
                 android:buttonTint="@color/orange"
                 android:checked="true" />
         </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_marginVertical="24dp" />
+
+        <!-- RODZAJ POSIŁKU -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/meal_title"
+            style="@style/AppTextNormal_orange"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <CheckBox
+            android:id="@+id/cbMealBreakfast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/meal_breakfast"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <CheckBox
+            android:id="@+id/cbMealLunch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/meal_lunch"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <CheckBox
+            android:id="@+id/cbMealDinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/meal_dinner"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <CheckBox
+            android:id="@+id/cbMealDessert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/meal_dessert"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
+
+        <CheckBox
+            android:id="@+id/cbMealSnacks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/meal_snacks"
+            style="@style/AppTextNormal_light_grey"
+            android:buttonTint="@color/orange" />
 
         <View
             android:layout_width="0dp"

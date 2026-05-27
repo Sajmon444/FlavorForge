@@ -31,7 +31,25 @@ class RecipesViewModel @Inject constructor(
                 // "gt.0" fetches all recipes.
                 val response = apiService.getRecipesByIds("gt.0")
                 if (response.isSuccessful && response.body() != null) {
-                    allRecipes = response.body()!!
+                    val recipesList = response.body()!!
+                    
+                    // Fetch category mappings and enrich recipes list
+                    val mappingsResponse = apiService.getAllRecipeCategories()
+                    val enrichedRecipes = if (mappingsResponse.isSuccessful && mappingsResponse.body() != null) {
+                        val mappings = mappingsResponse.body()!!
+                        val categoryMap = mappings.groupBy(
+                            keySelector = { it.recipeId },
+                            valueTransform = { it.category?.name }
+                        ).mapValues { entry -> entry.value.filterNotNull() }
+                        
+                        recipesList.map { recipe ->
+                            recipe.copy(categories = categoryMap[recipe.id] ?: emptyList())
+                        }
+                    } else {
+                        recipesList
+                    }
+                    
+                    allRecipes = enrichedRecipes
                     // Initially apply settings filtering
                     clearFilters()
                 } else {
@@ -51,7 +69,13 @@ class RecipesViewModel @Inject constructor(
         maxCalories: Int?,
         vege: Boolean,
         vegan: Boolean,
-        glutenFree: Boolean
+        meat: Boolean,
+        fish: Boolean,
+        breakfast: Boolean,
+        lunch: Boolean,
+        dinner: Boolean,
+        dessert: Boolean,
+        snacks: Boolean
     ) {
         val sp = sessionManager.getSettingsPrefs()
         val settingsPrepProgress = sp.getInt("settings_prep_time", 12)
@@ -85,27 +109,37 @@ class RecipesViewModel @Inject constructor(
                 (easy && isEasy) || (medium && isMedium) || (hard && isHard)
             }
 
-            // 2. Diet/Categories Filter
-            val vegeMatches = if (!vege) true else {
+            // 2. Diet Filter (Exact Match with Polish & English fallback)
+            val dietMatches = if (!vege && !vegan && !meat && !fish) {
+                true
+            } else {
                 recipe.categories?.any { cat ->
-                    val c = cat.lowercase()
-                    c.contains("vege") || c.contains("vegetarian") || c.contains("wegetarian")
-                } ?: false
-            }
-            val veganMatches = if (!vegan) true else {
-                recipe.categories?.any { cat ->
-                    val c = cat.lowercase()
-                    c.contains("vegan") || c.contains("wegańsk")
-                } ?: false
-            }
-            val glutenFreeMatches = if (!glutenFree) true else {
-                recipe.categories?.any { cat ->
-                    val c = cat.lowercase()
-                    c.contains("gluten") || c.contains("bezgluten")
+                    val trimmedCat = cat.trim()
+                    (vege && (trimmedCat.equals("Wegetariańskie", ignoreCase = true) || trimmedCat.equals("vegetarian", ignoreCase = true))) ||
+                    (vegan && (trimmedCat.equals("Wegańskie", ignoreCase = true) || trimmedCat.equals("vegan", ignoreCase = true))) ||
+                    (meat && (trimmedCat.equals("Mięsne", ignoreCase = true) || trimmedCat.equals("meat", ignoreCase = true))) ||
+                    (fish && (trimmedCat.equals("Ryby", ignoreCase = true) || trimmedCat.equals("Ryba", ignoreCase = true) || trimmedCat.equals("fish", ignoreCase = true)))
                 } ?: false
             }
 
-            diffMatches && vegeMatches && veganMatches && glutenFreeMatches
+            // 3. Meal Type Filter (Exact OR-Match with Polish & English fallback)
+            // LUNCH is cbMealLunch (text: "Lunch"). LUNCH in DB matches "Obiad" (slug "lunch").
+            // DINNER is cbMealDinner (text: "Obiad"). DINNER in DB matches "Kolacja" (slug "dinner").
+            // So if dinner is checked, we also match "Obiad"! If lunch is checked, we also match "Obiad"!
+            val mealMatches = if (!breakfast && !lunch && !dinner && !dessert && !snacks) {
+                true
+            } else {
+                recipe.categories?.any { cat ->
+                    val trimmedCat = cat.trim()
+                    (breakfast && (trimmedCat.equals("Śniadanie", ignoreCase = true) || trimmedCat.equals("breakfast", ignoreCase = true))) ||
+                    (lunch && (trimmedCat.equals("Obiad", ignoreCase = true) || trimmedCat.equals("lunch", ignoreCase = true))) ||
+                    (dinner && (trimmedCat.equals("Kolacja", ignoreCase = true) || trimmedCat.equals("Obiad", ignoreCase = true) || trimmedCat.equals("dinner", ignoreCase = true) || trimmedCat.equals("lunch", ignoreCase = true))) ||
+                    (dessert && (trimmedCat.equals("Deser", ignoreCase = true) || trimmedCat.equals("dessert", ignoreCase = true))) ||
+                    (snacks && (trimmedCat.equals("Szybkie przekąski", ignoreCase = true) || trimmedCat.equals("Przekąski", ignoreCase = true) || trimmedCat.equals("snacks", ignoreCase = true)))
+                } ?: false
+            }
+
+            diffMatches && dietMatches && mealMatches
         }
         _recipes.value = filtered
      }
@@ -119,7 +153,13 @@ class RecipesViewModel @Inject constructor(
             maxCalories = null,
             vege = false,
             vegan = false,
-            glutenFree = false
+            meat = false,
+            fish = false,
+            breakfast = false,
+            lunch = false,
+            dinner = false,
+            dessert = false,
+            snacks = false
         )
     }
 }

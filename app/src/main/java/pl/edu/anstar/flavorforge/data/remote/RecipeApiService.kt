@@ -3,6 +3,7 @@ package pl.edu.anstar.flavorforge.data.remote
 import pl.edu.anstar.flavorforge.data.model.RecipeDetails
 import pl.edu.anstar.flavorforge.data.model.RecipeSearchResult
 import pl.edu.anstar.flavorforge.data.model.SearchRequest
+import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -18,4 +19,17 @@ interface RecipeApiService {
 
     @GET("/rest/v1/recipes")
     suspend fun getRecipeDetails(@Query("id") idFilter: String): Response<List<RecipeDetails>>
+
+    @GET("/rest/v1/recipe_categories?select=recipe_id,categories(name)")
+    suspend fun getAllRecipeCategories(): Response<List<RecipeCategoryMapping>>
 }
+
+data class RecipeCategoryMapping(
+    @SerializedName("recipe_id") val recipeId: Int,
+    @SerializedName("categories") val category: CategoryNameWrapper?
+)
+
+data class CategoryNameWrapper(
+    @SerializedName("name") val name: String
+)
+

@@ -55,7 +55,19 @@ class RecipeRepositoryImpl @Inject constructor(
         return try {
             val response = apiService.getRecipeDetails("eq.$id")
             if (response.isSuccessful && !response.body().isNullOrEmpty()) {
-                Result.success(response.body()!!.first())
+                val details = response.body()!!.first()
+                
+                // Fetch categories and enrich
+                val mappingsResponse = apiService.getAllRecipeCategories()
+                val categoriesList = if (mappingsResponse.isSuccessful && mappingsResponse.body() != null) {
+                    mappingsResponse.body()!!
+                        .filter { it.recipeId == id }
+                        .mapNotNull { it.category?.name }
+                } else {
+                    emptyList()
+                }
+                
+                Result.success(details.copy(categories = categoriesList))
             } else {
                 Result.failure(Exception("Nie znaleziono szczegółów przepisu"))
             }

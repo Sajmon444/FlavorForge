@@ -71,8 +71,16 @@
     <string name="diet_title">Diet</string>
     <string name="diet_vege">Vegetarian</string>
     <string name="diet_vegan">Vegan</string>
-    <string name="diet_gluten_free">Gluten-free</string>
+    <string name="diet_meat">Meat</string>
+    <string name="diet_fish">Fish</string>
     <string name="diet_any">Any</string>
+
+    <string name="meal_title">Meal Type</string>
+    <string name="meal_breakfast">Breakfast</string>
+    <string name="meal_lunch">Lunch</string>
+    <string name="meal_dinner">Dinner</string>
+    <string name="meal_dessert">Dessert</string>
+    <string name="meal_snacks">Snacks</string>
 
     <string name="apply_filters">Apply filters</string>
     <string name="clear_filters">Clear all</string>

@@ -99,6 +99,12 @@ class RecipesActivity : AppCompatActivity() {
             findViewById<CheckBox>(R.id.cbHard)?.isChecked = false
             findViewById<RadioGroup>(R.id.rgDiet)?.check(R.id.rbDietAny)
 
+            findViewById<CheckBox>(R.id.cbMealBreakfast)?.isChecked = false
+            findViewById<CheckBox>(R.id.cbMealLunch)?.isChecked = false
+            findViewById<CheckBox>(R.id.cbMealDinner)?.isChecked = false
+            findViewById<CheckBox>(R.id.cbMealDessert)?.isChecked = false
+            findViewById<CheckBox>(R.id.cbMealSnacks)?.isChecked = false
+
             sbFilterTime?.progress = 12
             sbFilterCalories?.progress = 54
             activeDrawerMaxTime = null
@@ -147,9 +153,16 @@ class RecipesActivity : AppCompatActivity() {
         val cbHard = findViewById<CheckBox>(R.id.cbHard)
         val rgDiet = findViewById<RadioGroup>(R.id.rgDiet)
 
+        val cbMealBreakfast = findViewById<CheckBox>(R.id.cbMealBreakfast)
+        val cbMealLunch = findViewById<CheckBox>(R.id.cbMealLunch)
+        val cbMealDinner = findViewById<CheckBox>(R.id.cbMealDinner)
+        val cbMealDessert = findViewById<CheckBox>(R.id.cbMealDessert)
+        val cbMealSnacks = findViewById<CheckBox>(R.id.cbMealSnacks)
+
         val vege = rgDiet?.checkedRadioButtonId == R.id.rbDietVege
         val vegan = rgDiet?.checkedRadioButtonId == R.id.rbDietVegan
-        val glutenFree = rgDiet?.checkedRadioButtonId == R.id.rbDietGlutenFree
+        val meat = rgDiet?.checkedRadioButtonId == R.id.rbDietMeat
+        val fish = rgDiet?.checkedRadioButtonId == R.id.rbDietFish
 
         viewModel.filterRecipes(
             easy = cbEasy?.isChecked ?: false,
@@ -159,7 +172,13 @@ class RecipesActivity : AppCompatActivity() {
             maxCalories = activeDrawerMaxCalories,
             vege = vege,
             vegan = vegan,
-            glutenFree = glutenFree
+            meat = meat,
+            fish = fish,
+            breakfast = cbMealBreakfast?.isChecked ?: false,
+            lunch = cbMealLunch?.isChecked ?: false,
+            dinner = cbMealDinner?.isChecked ?: false,
+            dessert = cbMealDessert?.isChecked ?: false,
+            snacks = cbMealSnacks?.isChecked ?: false
         )
     }
 
