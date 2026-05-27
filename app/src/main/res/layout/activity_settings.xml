@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -87,46 +88,45 @@
             android:text="@string/settings_description"
             android:layout_marginBottom="16dp" />
 
-        <!-- Slider 1 -->
+        <!-- Slider 1: Preparation Time (0-180 min, step 15 min -> max=12) -->
         <TextView
+            android:id="@+id/tvTimeLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/AppTextNormal_light_grey"
-            android:text="@string/settings_spice"
-            android:layout_marginBottom="4dp" />
-
-        <SeekBar
-            android:id="@+id/spiceSeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Slider 2 -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/AppTextNormal_light_grey"
-            android:text="@string/settings_time"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="8dp"
+            tools:text="Maksymalny czas przygotowania: 180 min" />
 
         <SeekBar
             android:id="@+id/timeSeekBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:max="12"
+            android:progress="12"
+            android:thumbTint="@color/orange"
+            android:progressTint="@color/orange"
+            android:progressBackgroundTint="@color/light_grey" />
 
-        <!-- Slider 3 -->
+        <!-- Slider 2: Calories (300-3000 kcal, step 50 kcal -> max=54) -->
         <TextView
+            android:id="@+id/tvCaloriesLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/AppTextNormal_light_grey"
-            android:text="@string/settings_health"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            tools:text="Maksymalna kaloryczność: 3000 kcal" />
 
         <SeekBar
-            android:id="@+id/healthSeekBar"
+            android:id="@+id/caloriesSeekBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:max="54"
+            android:progress="54"
+            android:thumbTint="@color/orange"
+            android:progressTint="@color/orange"
+            android:progressBackgroundTint="@color/light_grey" />
 
         <!-- Button -->
         <Button

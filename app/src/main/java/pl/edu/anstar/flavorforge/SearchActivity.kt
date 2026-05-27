@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -75,9 +76,24 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
+        val sbMaxMissing = findViewById<SeekBar>(R.id.sbMaxMissing)
+        val tvMaxMissingLabel = findViewById<TextView>(R.id.tvMaxMissingLabel)
+
+        // Dynamically set label according to device language
+        tvMaxMissingLabel.text = getString(R.string.max_missing_ingredients, sbMaxMissing.progress)
+
+        sbMaxMissing.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                tvMaxMissingLabel.text = getString(R.string.max_missing_ingredients, progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
         btnSearch.setOnClickListener {
             val ingredients = viewModel.ingredients.value ?: return@setOnClickListener
-            ResultsActivity.start(this, ingredients)
+            val maxMissing = sbMaxMissing.progress
+            ResultsActivity.start(this, ingredients, maxMissing)
         }
 
         findViewById<View>(R.id.btnFilters).setOnClickListener {

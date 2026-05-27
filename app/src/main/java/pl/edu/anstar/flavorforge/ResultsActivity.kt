@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.RadioGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -12,11 +14,16 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import pl.edu.anstar.flavorforge.data.local.SessionManager
 import pl.edu.anstar.flavorforge.ui.RecipesAdapter
 import pl.edu.anstar.flavorforge.ui.results.ResultsViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ResultsActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     private val viewModel: ResultsViewModel by viewModels()
     private lateinit var rvRecipes: RecyclerView
@@ -38,30 +45,76 @@ class ResultsActivity : AppCompatActivity() {
             drawerLayout.openDrawer(GravityCompat.END)
         }
 
+        val cbEasy = findViewById<CheckBox>(R.id.cbEasy)
+        val cbMedium = findViewById<CheckBox>(R.id.cbMedium)
+        val cbHard = findViewById<CheckBox>(R.id.cbHard)
+        val rgPreparationTime = findViewById<RadioGroup>(R.id.rgPreparationTime)
+        val cbVege = findViewById<CheckBox>(R.id.cbVege)
+        val cbVegan = findViewById<CheckBox>(R.id.cbVegan)
+        val cbGlutenFree = findViewById<CheckBox>(R.id.cbGlutenFree)
+
         // Obsługa przycisków wewnątrz drawera
         findViewById<Button>(R.id.btnApplyFilters)?.setOnClickListener {
-
+            applyCurrentFilters()
             drawerLayout.closeDrawer(GravityCompat.END)
         }
 
         findViewById<Button>(R.id.btnClearFilters)?.setOnClickListener {
-
+            cbEasy.isChecked = false
+            cbMedium.isChecked = false
+            cbHard.isChecked = false
+            rgPreparationTime.check(R.id.rbTimeAny)
+            cbVege.isChecked = false
+            cbVegan.isChecked = false
+            cbGlutenFree.isChecked = false
+            viewModel.clearFilters()
             drawerLayout.closeDrawer(GravityCompat.END)
         }
 
         rvRecipes = findViewById(R.id.rvRecipes)
-        adapter = RecipesAdapter { recipeId ->
+        adapter = RecipesAdapter(sessionManager, { recipeId ->
             RecipeDetailsActivity.start(this, recipeId)
-        }
+        })
         rvRecipes.layoutManager = LinearLayoutManager(this)
         rvRecipes.adapter = adapter
 
         val ingredients = intent.getStringArrayListExtra(EXTRA_INGREDIENTS) ?: emptyList()
-        viewModel.searchRecipes(ingredients)
+        val maxMissing = intent.getIntExtra(EXTRA_MAX_MISSING, 2)
+        viewModel.searchRecipes(ingredients, maxMissing)
 
         viewModel.recipes.observe(this) { recipes ->
             adapter.submitList(recipes)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        applyCurrentFilters()
+    }
+
+    private fun applyCurrentFilters() {
+        val cbEasy = findViewById<CheckBox>(R.id.cbEasy)
+        val cbMedium = findViewById<CheckBox>(R.id.cbMedium)
+        val cbHard = findViewById<CheckBox>(R.id.cbHard)
+        val rgPreparationTime = findViewById<RadioGroup>(R.id.rgPreparationTime)
+        val cbVege = findViewById<CheckBox>(R.id.cbVege)
+        val cbVegan = findViewById<CheckBox>(R.id.cbVegan)
+        val cbGlutenFree = findViewById<CheckBox>(R.id.cbGlutenFree)
+
+        val maxTime = when (rgPreparationTime?.checkedRadioButtonId) {
+            R.id.rbTime30 -> 30
+            R.id.rbTime60 -> 60
+            else -> null
+        }
+        viewModel.filterRecipes(
+            easy = cbEasy?.isChecked ?: false,
+            medium = cbMedium?.isChecked ?: false,
+            hard = cbHard?.isChecked ?: false,
+            maxTime = maxTime,
+            vege = cbVege?.isChecked ?: false,
+            vegan = cbVegan?.isChecked ?: false,
+            glutenFree = cbGlutenFree?.isChecked ?: false
+        )
     }
 
     override fun onBackPressed() {
@@ -74,10 +127,12 @@ class ResultsActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_INGREDIENTS = "extra_ingredients"
+        private const val EXTRA_MAX_MISSING = "extra_max_missing"
 
-        fun start(context: Context, ingredients: List<String>) {
+        fun start(context: Context, ingredients: List<String>, maxMissing: Int = 2) {
             val intent = Intent(context, ResultsActivity::class.java).apply {
                 putStringArrayListExtra(EXTRA_INGREDIENTS, ArrayList(ingredients))
+                putExtra(EXTRA_MAX_MISSING, maxMissing)
             }
             context.startActivity(intent)
         }

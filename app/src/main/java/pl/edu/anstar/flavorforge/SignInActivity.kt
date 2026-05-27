@@ -9,10 +9,15 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import pl.edu.anstar.flavorforge.data.local.SessionManager
 import pl.edu.anstar.flavorforge.ui.signin.SignInViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     private val viewModel: SignInViewModel by viewModels()
 
@@ -58,6 +63,7 @@ class SignInActivity : AppCompatActivity() {
             result.onSuccess {
                 android.util.Log.d("SignInActivity", "Login success: $it")
                 Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                sessionManager.applySettings(this)
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }.onFailure { exception ->

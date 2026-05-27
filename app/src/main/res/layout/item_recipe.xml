@@ -15,8 +15,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivRecipe"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,33 +24,77 @@
         app:shapeAppearanceOverlay="@style/RoundedCornersImage"
         tools:src="@tools:sample/backgrounds/scenic" />
 
+    <ImageView
+        android:id="@+id/btnFavorite"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/love"
+        android:padding="6dp"
+        android:layout_margin="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Ulubione" />
+
     <TextView
         android:id="@+id/tvRecipeTitle"
         style="@style/AppTextNormal_light_grey"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnFavorite"
         app:layout_constraintStart_toEndOf="@id/ivRecipe"
         app:layout_constraintTop_toTopOf="@id/ivRecipe"
         tools:text="Recipe Title" />
 
     <TextView
+        android:id="@+id/tvRecipeCalories"
+        style="@style/AppTextNormal_light_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#E0E0E0"
+        app:layout_constraintStart_toEndOf="@id/ivRecipe"
+        app:layout_constraintTop_toBottomOf="@id/tvRecipeTitle"
+        tools:text="350 kcal" />
+
+    <TextView
+        android:id="@+id/tvRecipeDifficulty"
+        style="@style/AppTextNormal_light_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#FFC107"
+        app:layout_constraintStart_toEndOf="@id/ivRecipe"
+        app:layout_constraintTop_toBottomOf="@id/tvRecipeCalories"
+        tools:text="★★☆ Średnie" />
+
+    <TextView
         android:id="@+id/tvRecipeDescription"
         style="@style/AppTextNormal_light_grey"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:ellipsize="end"
-        android:maxLines="3"
+        android:maxLines="2"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivRecipe"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/tvRecipeTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvRecipeTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvRecipeDifficulty"
+        app:layout_constraintVertical_bias="0.0"
         tools:text="This is a short description of the recipe to show how it looks in the list." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

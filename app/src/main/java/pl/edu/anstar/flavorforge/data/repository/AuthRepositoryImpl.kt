@@ -26,7 +26,7 @@ class AuthRepositoryImpl @Inject constructor(
                 Log.d("AuthRepo", "SignUp successful. Body: $body")
                 if (body != null) {
                     val userName = body.user?.userMetadata?.name
-                    body.accessToken?.let { sessionManager.saveSession(it, userName) }
+                    body.accessToken?.let { sessionManager.saveSession(it, userName, body.user?.email) }
                     Result.success(body)
                 } else {
                     Log.e("AuthRepo", "SignUp successful but body is null")
@@ -64,7 +64,7 @@ class AuthRepositoryImpl @Inject constructor(
                 Log.d("AuthRepo", "SignIn successful. Body: $body")
                 if (body != null) {
                     val userName = body.user?.userMetadata?.name
-                    body.accessToken?.let { sessionManager.saveSession(it, userName) }
+                    body.accessToken?.let { sessionManager.saveSession(it, userName, body.user?.email) }
                     Result.success(body)
                 } else {
                     Log.e("AuthRepo", "SignIn successful but body is null")

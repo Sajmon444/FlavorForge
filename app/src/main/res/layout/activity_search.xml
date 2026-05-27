@@ -85,6 +85,36 @@
             android:clipToPadding="false"
             android:paddingBottom="8dp" />
 
+        <!-- Suwak dla brakujących składników -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/tvMaxMissingLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dozwolone brakujące składniki: 2"
+                style="@style/AppTextNormal_light_grey"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <SeekBar
+                android:id="@+id/sbMaxMissing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="5"
+                android:progress="2"
+                android:thumbTint="@color/orange"
+                android:progressTint="@color/orange"
+                android:progressBackgroundTint="@color/light_grey" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/btnSearch"
             android:layout_width="289dp"
@@ -94,7 +124,7 @@
             android:enabled="false"
             style="@style/AppButton_orange"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="8dp" />
 
     </LinearLayout>
 

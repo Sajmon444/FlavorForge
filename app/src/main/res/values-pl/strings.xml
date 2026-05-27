@@ -53,6 +53,7 @@
     <string name="add_button_text">Dodaj</string>
     <string name="added_ingredients_text">Dodane składniki:</string>
     <string name="search_button_text">WYSZUKAJ</string>
+    <string name="max_missing_ingredients">Dozwolone brakujące składniki: %d</string>
     <string name="filters_button_text">Filtry</string>
 
     <!-- FILTER DRAWER -->
@@ -95,9 +96,8 @@
     <string name="unit_metric">Metryczne (g, ml)</string>
     <string name="unit_imperial">Imperialne (oz, lb)</string>
     <string name="settings_description">Dostosuj preferencje wyszukiwania przepisów.</string>
-    <string name="settings_spice">Ostrość potraw</string>
-    <string name="settings_time">Czas przygotowania</string>
-    <string name="settings_health">Zdrowotność</string>
+    <string name="settings_time_label">Maksymalny czas przygotowania: %d min</string>
+    <string name="settings_calories">Maksymalna kaloryczność: %d kcal</string>
     <string name="apply_settings">Zastosuj</string>
     <string name="settings_theme">Motyw aplikacji</string>
     <string name="theme_light">Jasny</string>

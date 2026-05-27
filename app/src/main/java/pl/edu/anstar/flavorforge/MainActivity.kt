@@ -79,8 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnLiked).setOnClickListener {
             if (sessionManager.isLoggedIn()) {
-                // Tu w przyszłości otworzysz aktywność ulubionych
-                // startActivity(Intent(this, LikedActivity::class.java))
+                startActivity(Intent(this, LikedActivity::class.java))
             } else {
                 android.widget.Toast.makeText(
                     this,

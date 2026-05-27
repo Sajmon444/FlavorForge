@@ -12,5 +12,7 @@ data class RecipeSearchResult(
     @SerializedName("match_score") val matchScore: Int?,
     @SerializedName("missing_count") val missingCount: Int?,
     @SerializedName("matched_ingredients") val matchedIngredients: String?,
-    @SerializedName("missing_ingredients") val missingIngredients: String?
+    @SerializedName("missing_ingredients") val missingIngredients: String?,
+    @SerializedName("difficulty") val difficulty: String? = null,
+    @SerializedName("calories_total") val caloriesTotal: Int? = null
 )

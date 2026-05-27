@@ -30,7 +30,14 @@ class RecipeRepositoryImpl @Inject constructor(
                     val detailsMap = detailsResponse.body()!!.associateBy { it.id }
 
                     val enrichedResults = searchResults.map { result ->
-                        result.copy(description = detailsMap[result.id]?.description)
+                        val details = detailsMap[result.id]
+                        result.copy(
+                            description = details?.description ?: result.description,
+                            prepTime = details?.prepTime ?: result.prepTime,
+                            categories = details?.categories ?: result.categories,
+                            difficulty = details?.difficulty ?: result.difficulty,
+                            caloriesTotal = details?.caloriesTotal ?: result.caloriesTotal
+                        )
                     }
                     Result.success(enrichedResults)
                 } else {

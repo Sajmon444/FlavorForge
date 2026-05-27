@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import android.graphics.Color
+import pl.edu.anstar.flavorforge.data.local.SessionManager
 import pl.edu.anstar.flavorforge.data.model.RecipeDetails
 import pl.edu.anstar.flavorforge.domain.repository.RecipeRepository
 import javax.inject.Inject
@@ -22,11 +24,15 @@ class RecipeDetailsActivity : AppCompatActivity() {
     @Inject
     lateinit var repository: RecipeRepository
 
+    @Inject
+    lateinit var sessionManager: SessionManager
+
     private lateinit var tvTitle: TextView
     private lateinit var ivImage: ImageView
     private lateinit var tvDescription: TextView
     private lateinit var tvInstructions: TextView
     private lateinit var btnBack: ImageView
+    private lateinit var btnFavorite: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +43,36 @@ class RecipeDetailsActivity : AppCompatActivity() {
         tvDescription = findViewById(R.id.tvRecipeDescription)
         tvInstructions = findViewById(R.id.tvRecipeInstructions)
         btnBack = findViewById(R.id.btnBack)
+        btnFavorite = findViewById(R.id.btnFavorite)
 
         btnBack.setOnClickListener { finish() }
 
         val recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, -1)
         if (recipeId != -1) {
+            val isFavorite = sessionManager.isFavorite(recipeId)
+            if (isFavorite) {
+                btnFavorite.setColorFilter(Color.parseColor("#FF5252"))
+            } else {
+                btnFavorite.setColorFilter(Color.parseColor("#E8EBEE"))
+            }
+
+            btnFavorite.setOnClickListener {
+                if (!sessionManager.isLoggedIn()) {
+                    Toast.makeText(this, "Zaloguj się, aby zapisywać ulubione przepisy!", Toast.LENGTH_SHORT).show()
+                } else {
+                    val currentlyFavorite = sessionManager.isFavorite(recipeId)
+                    if (currentlyFavorite) {
+                        sessionManager.removeFavorite(recipeId)
+                        btnFavorite.setColorFilter(Color.parseColor("#E8EBEE"))
+                        Toast.makeText(this, "Usunięto z ulubionych", Toast.LENGTH_SHORT).show()
+                    } else {
+                        sessionManager.addFavorite(recipeId)
+                        btnFavorite.setColorFilter(Color.parseColor("#FF5252"))
+                        Toast.makeText(this, "Dodano do ulubionych", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
             loadRecipeDetails(recipeId)
         } else {
             Toast.makeText(this, "Błąd: Brak ID przepisu", Toast.LENGTH_SHORT).show()
