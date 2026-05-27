@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -62,43 +63,44 @@
 
         <!-- CZAS PRZYGOTOWANIA -->
         <TextView
+            android:id="@+id/tvFilterTimeLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/time_title"
             style="@style/AppTextNormal_orange"
             android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="8dp"
+            tools:text="Max czas przygotowania: 180 min" />
 
-        <RadioGroup
-            android:id="@+id/rgPreparationTime"
+        <SeekBar
+            android:id="@+id/sbFilterTime"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:max="12"
+            android:progress="12"
+            android:thumbTint="@color/orange"
+            android:progressTint="@color/orange"
+            android:progressBackgroundTint="@color/light_grey"
+            android:layout_marginBottom="24dp" />
 
-            <RadioButton
-                android:id="@+id/rbTime30"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/time_30"
-                style="@style/AppTextNormal_light_grey"
-                android:buttonTint="@color/orange" />
+        <!-- KALORYCZNOŚĆ -->
+        <TextView
+            android:id="@+id/tvFilterCaloriesLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTextNormal_orange"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            tools:text="Max kaloryczność: 3000 kcal" />
 
-            <RadioButton
-                android:id="@+id/rbTime60"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/time_60"
-                style="@style/AppTextNormal_light_grey"
-                android:buttonTint="@color/orange" />
-
-            <RadioButton
-                android:id="@+id/rbTimeAny"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/time_any"
-                style="@style/AppTextNormal_light_grey"
-                android:buttonTint="@color/orange"
-                android:checked="true" />
-        </RadioGroup>
+        <SeekBar
+            android:id="@+id/sbFilterCalories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="54"
+            android:progress="54"
+            android:thumbTint="@color/orange"
+            android:progressTint="@color/orange"
+            android:progressBackgroundTint="@color/light_grey" />
 
         <View
             android:layout_width="match_parent"

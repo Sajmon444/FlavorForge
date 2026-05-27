@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.RadioGroup
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +33,9 @@ class RecipesActivity : AppCompatActivity() {
 
     private val viewModel: RecipesViewModel by viewModels()
 
+    private var activeDrawerMaxTime: Int? = null
+    private var activeDrawerMaxCalories: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recepies)
@@ -50,7 +53,41 @@ class RecipesActivity : AppCompatActivity() {
             drawerLayout.openDrawer(GravityCompat.END)
         }
 
+        val sbFilterTime = findViewById<SeekBar>(R.id.sbFilterTime)
+        val tvFilterTimeLabel = findViewById<TextView>(R.id.tvFilterTimeLabel)
+        val sbFilterCalories = findViewById<SeekBar>(R.id.sbFilterCalories)
+        val tvFilterCaloriesLabel = findViewById<TextView>(R.id.tvFilterCaloriesLabel)
+
+        // Initialize SeekBars and set up listeners
+        sbFilterTime?.let {
+            val minutes = it.progress * 15
+            tvFilterTimeLabel?.text = getString(R.string.settings_time_label, minutes)
+            it.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    val currentMinutes = progress * 15
+                    tvFilterTimeLabel?.text = getString(R.string.settings_time_label, currentMinutes)
+                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+        }
+
+        sbFilterCalories?.let {
+            val kcal = 300 + it.progress * 50
+            tvFilterCaloriesLabel?.text = getString(R.string.settings_calories, kcal)
+            it.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    val currentKcal = 300 + progress * 50
+                    tvFilterCaloriesLabel?.text = getString(R.string.settings_calories, currentKcal)
+                }
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
+        }
+
         findViewById<Button>(R.id.btnApplyFilters)?.setOnClickListener {
+            activeDrawerMaxTime = sbFilterTime?.progress?.let { it * 15 }
+            activeDrawerMaxCalories = sbFilterCalories?.progress?.let { 300 + it * 50 }
             applyCurrentFilters()
             drawerLayout.closeDrawer(GravityCompat.END)
         }
@@ -59,10 +96,15 @@ class RecipesActivity : AppCompatActivity() {
             findViewById<CheckBox>(R.id.cbEasy)?.isChecked = false
             findViewById<CheckBox>(R.id.cbMedium)?.isChecked = false
             findViewById<CheckBox>(R.id.cbHard)?.isChecked = false
-            findViewById<RadioGroup>(R.id.rgPreparationTime)?.check(R.id.rbTimeAny)
             findViewById<CheckBox>(R.id.cbVege)?.isChecked = false
             findViewById<CheckBox>(R.id.cbVegan)?.isChecked = false
             findViewById<CheckBox>(R.id.cbGlutenFree)?.isChecked = false
+
+            sbFilterTime?.progress = 12
+            sbFilterCalories?.progress = 54
+            activeDrawerMaxTime = null
+            activeDrawerMaxCalories = null
+
             viewModel.clearFilters()
             drawerLayout.closeDrawer(GravityCompat.END)
         }
@@ -104,21 +146,16 @@ class RecipesActivity : AppCompatActivity() {
         val cbEasy = findViewById<CheckBox>(R.id.cbEasy)
         val cbMedium = findViewById<CheckBox>(R.id.cbMedium)
         val cbHard = findViewById<CheckBox>(R.id.cbHard)
-        val rgPreparationTime = findViewById<RadioGroup>(R.id.rgPreparationTime)
         val cbVege = findViewById<CheckBox>(R.id.cbVege)
         val cbVegan = findViewById<CheckBox>(R.id.cbVegan)
         val cbGlutenFree = findViewById<CheckBox>(R.id.cbGlutenFree)
 
-        val maxTime = when (rgPreparationTime?.checkedRadioButtonId) {
-            R.id.rbTime30 -> 30
-            R.id.rbTime60 -> 60
-            else -> null
-        }
         viewModel.filterRecipes(
             easy = cbEasy?.isChecked ?: false,
             medium = cbMedium?.isChecked ?: false,
             hard = cbHard?.isChecked ?: false,
-            maxTime = maxTime,
+            maxTime = activeDrawerMaxTime,
+            maxCalories = activeDrawerMaxCalories,
             vege = cbVege?.isChecked ?: false,
             vegan = cbVegan?.isChecked ?: false,
             glutenFree = cbGlutenFree?.isChecked ?: false

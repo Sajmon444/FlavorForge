@@ -48,6 +48,7 @@ class RecipesViewModel @Inject constructor(
         medium: Boolean,
         hard: Boolean,
         maxTime: Int?,
+        maxCalories: Int?,
         vege: Boolean,
         vegan: Boolean,
         glutenFree: Boolean
@@ -59,10 +60,14 @@ class RecipesViewModel @Inject constructor(
         val settingsCaloriesProgress = sp.getInt("settings_calories", 54)
         val settingsMaxCalories = 300 + settingsCaloriesProgress * 50 // kcal
 
+        // Overrides: custom drawer constraints take precedence over global settings
+        val activeMaxTime = maxTime ?: settingsMaxTime
+        val activeMaxCalories = maxCalories ?: settingsMaxCalories
+
         val filtered = allRecipes.filter { recipe ->
-            // --- Global settings constraints ---
-            val prepTimeLimitMatches = recipe.prepTime?.let { it <= settingsMaxTime } ?: true
-            val caloriesLimitMatches = recipe.caloriesTotal?.let { it <= settingsMaxCalories } ?: true
+            // --- Global settings / Drawer overrides constraints ---
+            val prepTimeLimitMatches = recipe.prepTime?.let { it <= activeMaxTime } ?: true
+            val caloriesLimitMatches = recipe.caloriesTotal?.let { it <= activeMaxCalories } ?: true
 
             if (!prepTimeLimitMatches || !caloriesLimitMatches) {
                 return@filter false
@@ -80,14 +85,7 @@ class RecipesViewModel @Inject constructor(
                 (easy && isEasy) || (medium && isMedium) || (hard && isHard)
             }
 
-            // 2. Preparation Time Filter
-            val timeMatches = if (maxTime == null) {
-                true
-            } else {
-                recipe.prepTime?.let { it <= maxTime } ?: false
-            }
-
-            // 3. Diet/Categories Filter
+            // 2. Diet/Categories Filter
             val vegeMatches = if (!vege) true else {
                 recipe.categories?.any { cat ->
                     val c = cat.lowercase()
@@ -107,10 +105,10 @@ class RecipesViewModel @Inject constructor(
                 } ?: false
             }
 
-            diffMatches && timeMatches && vegeMatches && veganMatches && glutenFreeMatches
+            diffMatches && vegeMatches && veganMatches && glutenFreeMatches
         }
         _recipes.value = filtered
-    }
+     }
 
     fun clearFilters() {
         filterRecipes(
@@ -118,6 +116,7 @@ class RecipesViewModel @Inject constructor(
             medium = false,
             hard = false,
             maxTime = null,
+            maxCalories = null,
             vege = false,
             vegan = false,
             glutenFree = false

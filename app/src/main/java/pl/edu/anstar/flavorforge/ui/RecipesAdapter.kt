@@ -47,7 +47,7 @@ class RecipesAdapter(
         private val ivRecipe: ImageView = itemView.findViewById(R.id.ivRecipe)
         private val tvTitle: TextView = itemView.findViewById(R.id.tvRecipeTitle)
         private val tvDescription: TextView = itemView.findViewById(R.id.tvRecipeDescription)
-        private val tvCalories: TextView = itemView.findViewById(R.id.tvRecipeCalories)
+        private val tvMetadata: TextView = itemView.findViewById(R.id.tvRecipeMetadata)
         private val tvDifficulty: TextView = itemView.findViewById(R.id.tvRecipeDifficulty)
         private val btnFavorite: ImageView = itemView.findViewById(R.id.btnFavorite)
 
@@ -55,12 +55,15 @@ class RecipesAdapter(
             tvTitle.text = recipe.title
             tvDescription.text = recipe.description
 
-            val calories = recipe.caloriesTotal
-            if (calories != null && calories > 0) {
-                tvCalories.visibility = View.VISIBLE
-                tvCalories.text = "$calories kcal"
+            val metadata = mutableListOf<String>()
+            recipe.caloriesTotal?.let { if (it > 0) metadata.add("$it kcal") }
+            recipe.prepTime?.let { if (it > 0) metadata.add("$it min") }
+
+            if (metadata.isNotEmpty()) {
+                tvMetadata.visibility = View.VISIBLE
+                tvMetadata.text = metadata.joinToString(" • ")
             } else {
-                tvCalories.visibility = View.GONE
+                tvMetadata.visibility = View.GONE
             }
 
             val context = itemView.context

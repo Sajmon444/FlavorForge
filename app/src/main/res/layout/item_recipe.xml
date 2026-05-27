@@ -54,7 +54,7 @@
         tools:text="Recipe Title" />
 
     <TextView
-        android:id="@+id/tvRecipeCalories"
+        android:id="@+id/tvRecipeMetadata"
         style="@style/AppTextNormal_light_grey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
         android:textColor="#E0E0E0"
         app:layout_constraintStart_toEndOf="@id/ivRecipe"
         app:layout_constraintTop_toBottomOf="@id/tvRecipeTitle"
-        tools:text="350 kcal" />
+        tools:text="350 kcal • 45 min" />
 
     <TextView
         android:id="@+id/tvRecipeDifficulty"
@@ -78,7 +78,7 @@
         android:textStyle="bold"
         android:textColor="#FFC107"
         app:layout_constraintStart_toEndOf="@id/ivRecipe"
-        app:layout_constraintTop_toBottomOf="@id/tvRecipeCalories"
+        app:layout_constraintTop_toBottomOf="@id/tvRecipeMetadata"
         tools:text="★★☆ Średnie" />
 
     <TextView
