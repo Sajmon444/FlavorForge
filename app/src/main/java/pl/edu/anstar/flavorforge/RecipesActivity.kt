@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -96,9 +97,7 @@ class RecipesActivity : AppCompatActivity() {
             findViewById<CheckBox>(R.id.cbEasy)?.isChecked = false
             findViewById<CheckBox>(R.id.cbMedium)?.isChecked = false
             findViewById<CheckBox>(R.id.cbHard)?.isChecked = false
-            findViewById<CheckBox>(R.id.cbVege)?.isChecked = false
-            findViewById<CheckBox>(R.id.cbVegan)?.isChecked = false
-            findViewById<CheckBox>(R.id.cbGlutenFree)?.isChecked = false
+            findViewById<RadioGroup>(R.id.rgDiet)?.check(R.id.rbDietAny)
 
             sbFilterTime?.progress = 12
             sbFilterCalories?.progress = 54
@@ -146,9 +145,11 @@ class RecipesActivity : AppCompatActivity() {
         val cbEasy = findViewById<CheckBox>(R.id.cbEasy)
         val cbMedium = findViewById<CheckBox>(R.id.cbMedium)
         val cbHard = findViewById<CheckBox>(R.id.cbHard)
-        val cbVege = findViewById<CheckBox>(R.id.cbVege)
-        val cbVegan = findViewById<CheckBox>(R.id.cbVegan)
-        val cbGlutenFree = findViewById<CheckBox>(R.id.cbGlutenFree)
+        val rgDiet = findViewById<RadioGroup>(R.id.rgDiet)
+
+        val vege = rgDiet?.checkedRadioButtonId == R.id.rbDietVege
+        val vegan = rgDiet?.checkedRadioButtonId == R.id.rbDietVegan
+        val glutenFree = rgDiet?.checkedRadioButtonId == R.id.rbDietGlutenFree
 
         viewModel.filterRecipes(
             easy = cbEasy?.isChecked ?: false,
@@ -156,9 +157,9 @@ class RecipesActivity : AppCompatActivity() {
             hard = cbHard?.isChecked ?: false,
             maxTime = activeDrawerMaxTime,
             maxCalories = activeDrawerMaxCalories,
-            vege = cbVege?.isChecked ?: false,
-            vegan = cbVegan?.isChecked ?: false,
-            glutenFree = cbGlutenFree?.isChecked ?: false
+            vege = vege,
+            vegan = vegan,
+            glutenFree = glutenFree
         )
     }
 

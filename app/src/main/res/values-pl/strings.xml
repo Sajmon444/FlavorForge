@@ -72,6 +72,7 @@
     <string name="diet_vege">Wegetariańskie</string>
     <string name="diet_vegan">Wegańskie</string>
     <string name="diet_gluten_free">Bezglutenowe</string>
+    <string name="diet_any">Dowolna</string>
 
     <string name="apply_filters">Zastosuj filtry</string>
     <string name="clear_filters">Wyczyść wszystko</string>

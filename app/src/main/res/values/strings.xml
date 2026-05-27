@@ -72,6 +72,7 @@
     <string name="diet_vege">Vegetarian</string>
     <string name="diet_vegan">Vegan</string>
     <string name="diet_gluten_free">Gluten-free</string>
+    <string name="diet_any">Any</string>
 
     <string name="apply_filters">Apply filters</string>
     <string name="clear_filters">Clear all</string>

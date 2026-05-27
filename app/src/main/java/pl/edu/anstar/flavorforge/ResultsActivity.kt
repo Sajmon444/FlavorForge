@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -51,9 +52,6 @@ class ResultsActivity : AppCompatActivity() {
         val cbEasy = findViewById<CheckBox>(R.id.cbEasy)
         val cbMedium = findViewById<CheckBox>(R.id.cbMedium)
         val cbHard = findViewById<CheckBox>(R.id.cbHard)
-        val cbVege = findViewById<CheckBox>(R.id.cbVege)
-        val cbVegan = findViewById<CheckBox>(R.id.cbVegan)
-        val cbGlutenFree = findViewById<CheckBox>(R.id.cbGlutenFree)
 
         val sbFilterTime = findViewById<SeekBar>(R.id.sbFilterTime)
         val tvFilterTimeLabel = findViewById<TextView>(R.id.tvFilterTimeLabel)
@@ -99,9 +97,7 @@ class ResultsActivity : AppCompatActivity() {
             cbEasy?.isChecked = false
             cbMedium?.isChecked = false
             cbHard?.isChecked = false
-            cbVege?.isChecked = false
-            cbVegan?.isChecked = false
-            cbGlutenFree?.isChecked = false
+            findViewById<RadioGroup>(R.id.rgDiet)?.check(R.id.rbDietAny)
 
             sbFilterTime?.progress = 12
             sbFilterCalories?.progress = 54
@@ -137,9 +133,11 @@ class ResultsActivity : AppCompatActivity() {
         val cbEasy = findViewById<CheckBox>(R.id.cbEasy)
         val cbMedium = findViewById<CheckBox>(R.id.cbMedium)
         val cbHard = findViewById<CheckBox>(R.id.cbHard)
-        val cbVege = findViewById<CheckBox>(R.id.cbVege)
-        val cbVegan = findViewById<CheckBox>(R.id.cbVegan)
-        val cbGlutenFree = findViewById<CheckBox>(R.id.cbGlutenFree)
+        val rgDiet = findViewById<RadioGroup>(R.id.rgDiet)
+
+        val vege = rgDiet?.checkedRadioButtonId == R.id.rbDietVege
+        val vegan = rgDiet?.checkedRadioButtonId == R.id.rbDietVegan
+        val glutenFree = rgDiet?.checkedRadioButtonId == R.id.rbDietGlutenFree
 
         viewModel.filterRecipes(
             easy = cbEasy?.isChecked ?: false,
@@ -147,9 +145,9 @@ class ResultsActivity : AppCompatActivity() {
             hard = cbHard?.isChecked ?: false,
             maxTime = activeDrawerMaxTime,
             maxCalories = activeDrawerMaxCalories,
-            vege = cbVege?.isChecked ?: false,
-            vegan = cbVegan?.isChecked ?: false,
-            glutenFree = cbGlutenFree?.isChecked ?: false
+            vege = vege,
+            vegan = vegan,
+            glutenFree = glutenFree
         )
     }
 

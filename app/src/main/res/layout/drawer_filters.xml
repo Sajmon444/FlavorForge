@@ -117,29 +117,44 @@
             android:textStyle="bold"
             android:layout_marginBottom="12dp" />
 
-        <CheckBox
-            android:id="@+id/cbVege"
+        <RadioGroup
+            android:id="@+id/rgDiet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/diet_vege"
-            style="@style/AppTextNormal_light_grey"
-            android:buttonTint="@color/orange" />
+            android:layout_height="wrap_content">
 
-        <CheckBox
-            android:id="@+id/cbVegan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/diet_vegan"
-            style="@style/AppTextNormal_light_grey"
-            android:buttonTint="@color/orange" />
+            <RadioButton
+                android:id="@+id/rbDietVege"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diet_vege"
+                style="@style/AppTextNormal_light_grey"
+                android:buttonTint="@color/orange" />
 
-        <CheckBox
-            android:id="@+id/cbGlutenFree"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/diet_gluten_free"
-            style="@style/AppTextNormal_light_grey"
-            android:buttonTint="@color/orange" />
+            <RadioButton
+                android:id="@+id/rbDietVegan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diet_vegan"
+                style="@style/AppTextNormal_light_grey"
+                android:buttonTint="@color/orange" />
+
+            <RadioButton
+                android:id="@+id/rbDietGlutenFree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diet_gluten_free"
+                style="@style/AppTextNormal_light_grey"
+                android:buttonTint="@color/orange" />
+
+            <RadioButton
+                android:id="@+id/rbDietAny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/diet_any"
+                style="@style/AppTextNormal_light_grey"
+                android:buttonTint="@color/orange"
+                android:checked="true" />
+        </RadioGroup>
 
         <View
             android:layout_width="0dp"
