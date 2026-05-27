@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,7 @@ import kotlin.text.trim
 class SearchActivity : AppCompatActivity() {
 
     private val viewModel: SearchViewModel by viewModels()
-    private lateinit var etIngredient: EditText
+    private lateinit var etIngredient: AutoCompleteTextView
     private lateinit var btnAdd: Button
     private lateinit var btnSearch: Button
     private lateinit var rvIngredients: RecyclerView
@@ -39,6 +40,21 @@ class SearchActivity : AppCompatActivity() {
         btnSearch = findViewById(R.id.btnSearch)
         rvIngredients = findViewById(R.id.rvIngredients)
 
+
+        val suggestions = resources.getStringArray(R.array.ingredients_suggestions).toList()
+
+        val autoAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            suggestions
+        )
+
+        etIngredient.setAdapter(autoAdapter)
+        etIngredient.threshold = 1
+
+
+        etIngredient.setAdapter(autoAdapter)
+        etIngredient.threshold = 1
         adapter = IngredientsAdapter { ingredient ->
             viewModel.removeIngredient(ingredient)
         }
@@ -90,11 +106,6 @@ class SearchActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
             startActivity(Intent(this, SignInActivity::class.java))
         }
-
-//        findViewById<Button>(R.id.btnLiked).setOnClickListener {
-//            drawerLayout.closeDrawer(GravityCompat.START)
-//            startActivity(Intent(this, LikedActivity::class.java))
-//        }
 
         findViewById<Button>(R.id.btnSettings).setOnClickListener {
             drawerLayout.closeDrawer(GravityCompat.START)

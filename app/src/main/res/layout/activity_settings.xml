@@ -18,29 +18,81 @@
             android:padding="8dp"
             android:layout_marginBottom="8dp"
             android:layout_gravity="start"
-            android:contentDescription="Wróć" />
+            android:contentDescription="@string/back_button_desc" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ustawienia"
+            android:text="@string/settings_title"
             style="@style/AppTextTitle_orange"
             android:layout_marginBottom="24dp" />
 
-        <!-- Opis -->
+        <!-- Language Selection -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/AppTextNormal_light_grey"
-            android:text="Dostosuj preferencje wyszukiwania przepisów."
+            android:text="@string/settings_language"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/languageSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/spinner_dropdown_bg"
+            android:spinnerMode="dropdown"
+            android:overlapAnchor="false"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Unit Selection -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTextNormal_light_grey"
+            android:text="@string/settings_units"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/unitSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/spinner_dropdown_bg"
+            android:spinnerMode="dropdown"
+            android:overlapAnchor="false"
+            android:layout_marginBottom="24dp" />
+        <!-- Theme Selection -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTextNormal_light_grey"
+            android:text="@string/settings_theme"
+            android:layout_marginBottom="4dp" />
+
+        <Spinner
+            android:id="@+id/themeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/spinner_bg"
+            android:popupBackground="@drawable/spinner_dropdown_bg"
+            android:spinnerMode="dropdown"
+            android:overlapAnchor="false"
+            android:layout_marginBottom="24dp" />
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTextNormal_light_grey"
+            android:text="@string/settings_description"
             android:layout_marginBottom="16dp" />
 
-        <!-- Suwak 1 -->
+        <!-- Slider 1 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/AppTextNormal_light_grey"
-            android:text="Ostrość potraw"
+            android:text="@string/settings_spice"
             android:layout_marginBottom="4dp" />
 
         <SeekBar
@@ -48,12 +100,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Suwak 2 -->
+        <!-- Slider 2 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/AppTextNormal_light_grey"
-            android:text="Czas przygotowania"
+            android:text="@string/settings_time"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp" />
 
@@ -62,12 +114,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Suwak 3 -->
+        <!-- Slider 3 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/AppTextNormal_light_grey"
-            android:text="Zdrowotność"
+            android:text="@string/settings_health"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp" />
 
@@ -76,13 +128,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Przycisk -->
+        <!-- Button -->
         <Button
             android:id="@+id/btnApplySettings"
             style="@style/AppButton_orange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Zastosuj"
+            android:text="@string/apply_settings"
             android:layout_marginTop="32dp" />
 
     </LinearLayout>

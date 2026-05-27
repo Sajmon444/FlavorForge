@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppButton_orange">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="backgroundTint">@color/orange</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+    <style name="AppTextTitle_orange">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/orange</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+    <style name="AppTextNormal_orange">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="AppTextNormal_light_grey">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/light_grey</item>
+    </style>
+
+    <style name="AppTextNormal_grey">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="Button_drawer_menu">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">16dp</item>
+
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/grey</item>
+
+    </style>
+    <style name="User_drawer_menu">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">16dp</item>
+
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
+    <style name="RoundedCornersImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+
+
+
+
+</resources>

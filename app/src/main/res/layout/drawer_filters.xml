@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Filtry"
+            android:text="@string/filters_title"
             style="@style/AppTextTitle_orange"
             android:layout_marginBottom="32dp" />
 
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Poziom trudności"
+            android:text="@string/difficulty_title"
             style="@style/AppTextNormal_orange"
             android:textStyle="bold"
             android:layout_marginBottom="12dp" />
@@ -34,7 +34,7 @@
             android:id="@+id/cbEasy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Łatwe"
+            android:text="@string/difficulty_easy"
             style="@style/AppTextNormal_light_grey"
             android:buttonTint="@color/orange" />
 
@@ -42,7 +42,7 @@
             android:id="@+id/cbMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Średnie"
+            android:text="@string/difficulty_medium"
             style="@style/AppTextNormal_light_grey"
             android:buttonTint="@color/orange" />
 
@@ -50,7 +50,7 @@
             android:id="@+id/cbHard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Trudne"
+            android:text="@string/difficulty_hard"
             style="@style/AppTextNormal_light_grey"
             android:buttonTint="@color/orange" />
 
@@ -64,7 +64,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Czas przygotowania"
+            android:text="@string/time_title"
             style="@style/AppTextNormal_orange"
             android:textStyle="bold"
             android:layout_marginBottom="12dp" />
@@ -78,7 +78,7 @@
                 android:id="@+id/rbTime30"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Do 30 min"
+                android:text="@string/time_30"
                 style="@style/AppTextNormal_light_grey"
                 android:buttonTint="@color/orange" />
 
@@ -86,7 +86,7 @@
                 android:id="@+id/rbTime60"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Do 60 min"
+                android:text="@string/time_60"
                 style="@style/AppTextNormal_light_grey"
                 android:buttonTint="@color/orange" />
 
@@ -94,7 +94,7 @@
                 android:id="@+id/rbTimeAny"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dowolny"
+                android:text="@string/time_any"
                 style="@style/AppTextNormal_light_grey"
                 android:buttonTint="@color/orange"
                 android:checked="true" />
@@ -110,7 +110,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dieta"
+            android:text="@string/diet_title"
             style="@style/AppTextNormal_orange"
             android:textStyle="bold"
             android:layout_marginBottom="12dp" />
@@ -119,7 +119,7 @@
             android:id="@+id/cbVege"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wegetariańskie"
+            android:text="@string/diet_vege"
             style="@style/AppTextNormal_light_grey"
             android:buttonTint="@color/orange" />
 
@@ -127,7 +127,7 @@
             android:id="@+id/cbVegan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wegańskie"
+            android:text="@string/diet_vegan"
             style="@style/AppTextNormal_light_grey"
             android:buttonTint="@color/orange" />
 
@@ -135,7 +135,7 @@
             android:id="@+id/cbGlutenFree"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bezglutenowe"
+            android:text="@string/diet_gluten_free"
             style="@style/AppTextNormal_light_grey"
             android:buttonTint="@color/orange" />
 
@@ -150,7 +150,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/AppButton_orange"
-            android:text="Zastosuj filtry"
+            android:text="@string/apply_filters"
             android:textSize="18sp"
             android:layout_marginBottom="8dp" />
 
@@ -159,7 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:text="Wyczyść wszystko"
+            android:text="@string/clear_filters"
             style="@style/AppTextNormal_light_grey"
             android:textAllCaps="false" />
 

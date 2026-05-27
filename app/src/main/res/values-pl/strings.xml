@@ -1,0 +1,160 @@
+<resources>
+
+    <!-- APP -->
+    <string name="app_name">FlavorForge</string>
+
+    <!-- AUTH: SIGN IN -->
+    <string name="sign_in_title">Logowanie</string>
+    <string name="sign_in_subtitle">Cześć! Miło Cię znowu widzieć.</string>
+    <string name="email_hint">Email:</string>
+    <string name="email_input_hint">Twój adres email</string>
+    <string name="password_hint">Hasło:</string>
+    <string name="password_input_hint">Twoje hasło</string>
+    <string name="forgot_password_text">Zapomniałeś hasła?</string>
+    <string name="sign_in_button_text">Zaloguj się</string>
+    <string name="continue_without_login_text">Kontynuuj bez logowania</string>
+    <string name="go_to_sign_up_text">Zarejestruj się</string>
+
+    <!-- AUTH: SIGN UP -->
+    <string name="sign_up_title">Rejestracja</string>
+    <string name="sign_up_subtitle">Zarejestruj się, aby uzyskać dostęp do większej liczby opcji.</string>
+    <string name="sign_up_button_text">Zarejestruj się</string>
+    <string name="have_account">Masz już konto? <font color="#FF4500"><b>Zaloguj się</b></font></string>
+
+    <!-- TERMS -->
+    <string name="terms_text">
+        <font color="#D1D6DB">Akceptuję </font>
+        <font color="#FF4500"><b>Regulamin i Politykę Prywatności.</b></font>
+    </string>
+
+    <!-- MAIN SCREEN -->
+    <string name="what_we_are_cooking_text">Co dziś ugotujemy?</string>
+    <string name="search_recipes_text">Wyszukaj przepisy</string>
+
+    <!-- DRAWER MENU -->
+    <string name="menu_title">Menu</string>
+    <string name="user">Użytkownik</string>
+    <string name="register_for_free">Zarejestruj się za darmo,\naby uzyskać więcej opcji.</string>
+    <string name="menu_home_text">Strona główna</string>
+    <string name="menu_recipes_text">Przepisy</string>
+    <string name="menu_register_text">Rejestracja</string>
+    <string name="menu_settings_text">Ustawienia</string>
+    <string name="menu_favorite_text">Ulubione</string>
+
+    <!-- (Legacy names used in XML) -->
+    <string name="Home">Strona główna</string>
+    <string name="recepies">Przepisy</string>
+    <string name="settings">Ustawienia</string>
+    <string name="sign_in">Logowanie</string>
+    <string name="favorite">Ulubione</string>
+
+    <!-- SEARCH SCREEN -->
+    <string name="ingredient_hint">Składnik</string>
+    <string name="add_button_text">Dodaj</string>
+    <string name="added_ingredients_text">Dodane składniki:</string>
+    <string name="search_button_text">WYSZUKAJ</string>
+    <string name="filters_button_text">Filtry</string>
+
+    <!-- FILTER DRAWER -->
+    <string name="filters_title">Filtry</string>
+    <string name="difficulty_title">Poziom trudności</string>
+    <string name="difficulty_easy">Łatwe</string>
+    <string name="difficulty_medium">Średnie</string>
+    <string name="difficulty_hard">Trudne</string>
+
+    <string name="time_title">Czas przygotowania</string>
+    <string name="time_30">Do 30 min</string>
+    <string name="time_60">Do 60 min</string>
+    <string name="time_any">Dowolny</string>
+
+    <string name="diet_title">Dieta</string>
+    <string name="diet_vege">Wegetariańskie</string>
+    <string name="diet_vegan">Wegańskie</string>
+    <string name="diet_gluten_free">Bezglutenowe</string>
+
+    <string name="apply_filters">Zastosuj filtry</string>
+    <string name="clear_filters">Wyczyść wszystko</string>
+
+    <!-- RESULTS SCREEN -->
+    <string name="results_title">Wyniki wyszukiwania</string>
+    <string name="back_button_desc">Wróć</string>
+
+    <!-- RECIPES LIST -->
+    <string name="recipes_title">Przepisy</string>
+    <string name="loading_error">Błąd podczas ładowania danych</string>
+
+    <!-- RECIPE DETAILS -->
+    <string name="recipe_instructions_title">Instrukcje:</string>
+
+    <!-- SETTINGS -->
+    <string name="settings_title">Ustawienia</string>
+    <string name="settings_language">Język</string>
+    <string name="lang_en">Angielski</string>
+    <string name="lang_pl">Polski</string>
+    <string name="settings_units">Jednostki miary</string>
+    <string name="unit_metric">Metryczne (g, ml)</string>
+    <string name="unit_imperial">Imperialne (oz, lb)</string>
+    <string name="settings_description">Dostosuj preferencje wyszukiwania przepisów.</string>
+    <string name="settings_spice">Ostrość potraw</string>
+    <string name="settings_time">Czas przygotowania</string>
+    <string name="settings_health">Zdrowotność</string>
+    <string name="apply_settings">Zastosuj</string>
+    <string name="settings_theme">Motyw aplikacji</string>
+    <string name="theme_light">Jasny</string>
+    <string name="theme_dark">Ciemny</string>
+    <string name="theme_system">Systemowy</string>
+
+    <string-array name="ingredients_suggestions">
+        <item>Awokado</item>
+        <item>Bazylia</item>
+        <item>Cebula</item>
+        <item>Ciasto francuskie</item>
+        <item>Cukier</item>
+        <item>Cukinia</item>
+        <item>Curry</item>
+        <item>Czosnek</item>
+        <item>Jabłka</item>
+        <item>Jajka</item>
+        <item>Jajo</item>
+        <item>Kabanosy</item>
+        <item>Kasza kuskus</item>
+        <item>Koper</item>
+        <item>Kurczak</item>
+        <item>Łosoś</item>
+        <item>Majonez</item>
+        <item>Makaron</item>
+        <item>Masło</item>
+        <item>Mieszanka warzyw mrożonych</item>
+        <item>Mleczko kokosowe</item>
+        <item>Mleko</item>
+        <item>Mozzarella</item>
+        <item>Oliwa z oliwek</item>
+        <item>Oliwki</item>
+        <item>Ogórek</item>
+        <item>Papryka</item>
+        <item>Penne</item>
+        <item>Pesto bazyliowe</item>
+        <item>Pieprz czarny</item>
+        <item>Pomidor</item>
+        <item>Pomidorki koktajlowe</item>
+        <item>Ryż</item>
+        <item>Ser biały</item>
+        <item>Ser feta</item>
+        <item>Ser gouda</item>
+        <item>Ser żółty</item>
+        <item>Sól</item>
+        <item>Sos BBQ</item>
+        <item>Sos sojowy</item>
+        <item>Spaghetti</item>
+        <item>Szczypiorek</item>
+        <item>Szynka</item>
+        <item>Śmietana</item>
+        <item>Tortilla</item>
+        <item>Tuńczyk w puszce</item>
+        <item>Twaróg</item>
+        <item>Woda</item>
+        <item>Ziemniaki</item>
+    </string-array>
+
+
+</resources>

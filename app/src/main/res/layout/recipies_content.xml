@@ -22,12 +22,12 @@
             android:padding="8dp"
             android:layout_marginBottom="8dp"
             android:layout_gravity="start"
-            android:contentDescription="Wróć" />
+            android:contentDescription="@string/back_button_desc" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Przepisy"
+            android:text="@string/menu_recipes_text"
             style="@style/AppTextTitle_orange"
             android:layout_marginBottom="8dp" />
     </LinearLayout>
@@ -47,7 +47,7 @@
         android:gravity="center"
         android:textColor="@android:color/holo_red_dark"
         android:visibility="gone"
-        tools:text="Error message" />
+        tools:text="@string/loading_error" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecipes"

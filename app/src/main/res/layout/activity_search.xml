@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#243A63"
+        android:background="@color/background"
         android:padding="24dp"
         android:gravity="center_horizontal">
 
@@ -19,21 +19,22 @@
             android:orientation="horizontal"
             android:layout_marginBottom="24dp"
             android:gravity="center_vertical">
+
             <ImageView
                 android:id="@+id/btnMenu"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/list_icon"
-                android:layout_gravity="end|top"
-                android:layout_margin="16dp"
                 android:padding="8dp"
-                android:contentDescription="Otwórz filtry" />
-            <EditText
+                android:contentDescription="@string/menu_title" />
+
+            <!-- ZMIENIONE: EditText → AutoCompleteTextView -->
+            <AutoCompleteTextView
                 android:id="@+id/etIngredient"
                 android:layout_width="0dp"
                 android:layout_height="67dp"
                 android:layout_weight="1"
-                android:hint="Składnik"
+                android:hint="@string/ingredient_hint"
                 android:textColorHint="@color/light_grey"
                 android:textColor="@color/light_grey"
                 android:backgroundTint="@color/light_grey"
@@ -51,7 +52,7 @@
                 android:layout_marginStart="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="Dodaj"
+                android:text="@string/add_button_text"
                 android:textSize="14sp"
                 style="@style/AppButton_orange" />
         </LinearLayout>
@@ -65,12 +66,12 @@
             android:padding="4dp"
             android:tint="@color/light_grey"
             android:layout_gravity="end"
-            android:contentDescription="Filtry" />
+            android:contentDescription="@string/filters_button_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dodane składniki:"
+            android:text="@string/added_ingredients_text"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/light_grey"
@@ -88,7 +89,7 @@
             android:id="@+id/btnSearch"
             android:layout_width="289dp"
             android:layout_height="67dp"
-            android:text="WYSZUKAJ"
+            android:text="@string/search_button_text"
             android:textSize="14sp"
             android:enabled="false"
             style="@style/AppButton_orange"
@@ -110,8 +111,7 @@
     <FrameLayout
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:background="#1E2A47">
+        android:layout_gravity="end">
 
         <include layout="@layout/drawer_filters" />
     </FrameLayout>
