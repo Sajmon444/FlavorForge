@@ -52,8 +52,9 @@ class RecipesAdapter(
         private val btnFavorite: ImageView = itemView.findViewById(R.id.btnFavorite)
 
         fun bind(recipe: RecipeSearchResult) {
-            tvTitle.text = recipe.title
-            tvDescription.text = recipe.description
+            val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
+            tvTitle.text = recipe.getTitle(language)
+            tvDescription.text = recipe.getDescription(language)
 
             val metadata = mutableListOf<String>()
             recipe.caloriesTotal?.let { if (it > 0) metadata.add("$it kcal") }

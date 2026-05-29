@@ -23,8 +23,11 @@ class ResultsViewModel @Inject constructor(
     private var allRecipes: List<RecipeSearchResult> = emptyList()
 
     fun searchRecipes(ingredients: List<String>, maxMissing: Int, onComplete: () -> Unit = { clearFilters() }) {
+        val language = java.util.Locale.getDefault().language.let { 
+            if (it == "pl" || it == "en") it else "en" 
+        }
         viewModelScope.launch {
-            searchUseCase(ingredients, maxMissing).fold(
+            searchUseCase(ingredients, maxMissing, language).fold(
                 onSuccess = { results ->
                     allRecipes = results
                     onComplete()
@@ -86,29 +89,28 @@ class ResultsViewModel @Inject constructor(
             val dietMatches = if (!vege && !vegan && !meat && !fish) {
                 true
             } else {
-                recipe.categories?.any { cat ->
-                    val trimmedCat = cat.trim()
-                    (vege && (trimmedCat.equals("Wegetariańskie", ignoreCase = true) || trimmedCat.equals("vegetarian", ignoreCase = true))) ||
-                    (vegan && (trimmedCat.equals("Wegańskie", ignoreCase = true) || trimmedCat.equals("vegan", ignoreCase = true))) ||
-                    (meat && (trimmedCat.equals("Mięsne", ignoreCase = true) || trimmedCat.equals("meat", ignoreCase = true))) ||
-                    (fish && (trimmedCat.equals("Ryby", ignoreCase = true) || trimmedCat.equals("Ryba", ignoreCase = true) || trimmedCat.equals("fish", ignoreCase = true)))
+                recipe.categories?.any { category ->
+                    val trimmedName = category.name.trim()
+                    val slug = category.slug.lowercase()
+                    (vege && (trimmedName.equals("Wegetariańskie", ignoreCase = true) || slug == "vegetarian")) ||
+                    (vegan && (trimmedName.equals("Wegańskie", ignoreCase = true) || slug == "vegan")) ||
+                    (meat && (trimmedName.equals("Mięsne", ignoreCase = true) || slug == "meat")) ||
+                    (fish && (trimmedName.equals("Ryby", ignoreCase = true) || trimmedName.equals("Ryba", ignoreCase = true) || slug == "fish"))
                 } ?: false
             }
 
             // 3. Meal Type Filter (Exact OR-Match with Polish & English fallback)
-            // LUNCH is cbMealLunch (text: "Lunch"). LUNCH in DB matches "Obiad" (slug "lunch").
-            // DINNER is cbMealDinner (text: "Obiad"). DINNER in DB matches "Kolacja" (slug "dinner").
-            // So if dinner is checked, we also match "Obiad"! If lunch is checked, we also match "Obiad"!
             val mealMatches = if (!breakfast && !lunch && !dinner && !dessert && !snacks) {
                 true
             } else {
-                recipe.categories?.any { cat ->
-                    val trimmedCat = cat.trim()
-                    (breakfast && (trimmedCat.equals("Śniadanie", ignoreCase = true) || trimmedCat.equals("breakfast", ignoreCase = true))) ||
-                    (lunch && (trimmedCat.equals("Obiad", ignoreCase = true) || trimmedCat.equals("lunch", ignoreCase = true))) ||
-                    (dinner && (trimmedCat.equals("Kolacja", ignoreCase = true) || trimmedCat.equals("Obiad", ignoreCase = true) || trimmedCat.equals("dinner", ignoreCase = true) || trimmedCat.equals("lunch", ignoreCase = true))) ||
-                    (dessert && (trimmedCat.equals("Deser", ignoreCase = true) || trimmedCat.equals("dessert", ignoreCase = true))) ||
-                    (snacks && (trimmedCat.equals("Szybkie przekąski", ignoreCase = true) || trimmedCat.equals("Przekąski", ignoreCase = true) || trimmedCat.equals("snacks", ignoreCase = true)))
+                recipe.categories?.any { category ->
+                    val trimmedName = category.name.trim()
+                    val slug = category.slug.lowercase()
+                    (breakfast && (trimmedName.equals("Śniadanie", ignoreCase = true) || slug == "breakfast")) ||
+                    (lunch && (trimmedName.equals("Obiad", ignoreCase = true) || slug == "lunch")) ||
+                    (dinner && (trimmedName.equals("Kolacja", ignoreCase = true) || trimmedName.equals("Obiad", ignoreCase = true) || slug == "dinner" || slug == "lunch")) ||
+                    (dessert && (trimmedName.equals("Deser", ignoreCase = true) || slug == "dessert")) ||
+                    (snacks && (trimmedName.equals("Szybkie przekąski", ignoreCase = true) || trimmedName.equals("Przekąski", ignoreCase = true) || slug == "snacks"))
                 } ?: false
             }
 

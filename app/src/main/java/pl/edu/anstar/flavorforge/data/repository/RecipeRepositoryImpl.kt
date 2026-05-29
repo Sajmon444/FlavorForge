@@ -13,16 +13,18 @@ class RecipeRepositoryImpl @Inject constructor(
 
     override suspend fun searchRecipes(
         ingredients: List<String>,
-        maxMissing: Int
+        maxMissing: Int,
+        language: String
     ): Result<List<RecipeSearchResult>> {
         return try {
-            val request = SearchRequest(ingredients, maxMissing)
+            val request = SearchRequest(ingredients, maxMissing, language)
             val response = apiService.searchRecipes(request)
 
             if (response.isSuccessful && response.body() != null) {
                 val searchResults = response.body()!!
                 if (searchResults.isEmpty()) return Result.success(emptyList())
 
+                // Optional: Enrich with more details if not provided by search_recipes RPC
                 val ids = searchResults.joinToString(",") { it.id.toString() }
                 val detailsResponse = apiService.getRecipesByIds("in.($ids)")
 
@@ -56,18 +58,7 @@ class RecipeRepositoryImpl @Inject constructor(
             val response = apiService.getRecipeDetails("eq.$id")
             if (response.isSuccessful && !response.body().isNullOrEmpty()) {
                 val details = response.body()!!.first()
-                
-                // Fetch categories and enrich
-                val mappingsResponse = apiService.getAllRecipeCategories()
-                val categoriesList = if (mappingsResponse.isSuccessful && mappingsResponse.body() != null) {
-                    mappingsResponse.body()!!
-                        .filter { it.recipeId == id }
-                        .mapNotNull { it.category?.name }
-                } else {
-                    emptyList()
-                }
-                
-                Result.success(details.copy(categories = categoriesList))
+                Result.success(details)
             } else {
                 Result.failure(Exception("Nie znaleziono szczegółów przepisu"))
             }

@@ -28,6 +28,7 @@ class RecipesViewModel @Inject constructor(
     fun fetchLatestRecipes() {
         viewModelScope.launch {
             try {
+                val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
                 // "gt.0" fetches all recipes.
                 val response = apiService.getRecipesByIds("gt.0")
                 if (response.isSuccessful && response.body() != null) {
@@ -37,10 +38,16 @@ class RecipesViewModel @Inject constructor(
                     val mappingsResponse = apiService.getAllRecipeCategories()
                     val enrichedRecipes = if (mappingsResponse.isSuccessful && mappingsResponse.body() != null) {
                         val mappings = mappingsResponse.body()!!
+                        
                         val categoryMap = mappings.groupBy(
                             keySelector = { it.recipeId },
-                            valueTransform = { it.category?.name }
-                        ).mapValues { entry -> entry.value.filterNotNull() }
+                            valueTransform = { it.category }
+                        ).mapValues { entry -> 
+                            entry.value.filterNotNull().map { wrapper ->
+                                val name = parseJsonTranslated(wrapper.name, language)
+                                pl.edu.anstar.flavorforge.data.model.Category(name, wrapper.slug)
+                            }
+                        }
                         
                         recipesList.map { recipe ->
                             recipe.copy(categories = categoryMap[recipe.id] ?: emptyList())
@@ -59,6 +66,16 @@ class RecipesViewModel @Inject constructor(
                 _error.value = "Error: ${e.message}"
             }
         }
+    }
+
+    private fun parseJsonTranslated(element: com.google.gson.JsonElement?, language: String): String {
+        if (element == null || element.isJsonNull) return ""
+        if (element.isJsonPrimitive) return element.asString
+        return try {
+            val obj = element.asJsonObject
+            if (obj.has(language)) obj.get(language).asString
+            else obj.get("en")?.asString ?: obj.get("pl")?.asString ?: ""
+        } catch (e: Exception) { "" }
     }
 
     fun filterRecipes(
@@ -113,29 +130,28 @@ class RecipesViewModel @Inject constructor(
             val dietMatches = if (!vege && !vegan && !meat && !fish) {
                 true
             } else {
-                recipe.categories?.any { cat ->
-                    val trimmedCat = cat.trim()
-                    (vege && (trimmedCat.equals("Wegetariańskie", ignoreCase = true) || trimmedCat.equals("vegetarian", ignoreCase = true))) ||
-                    (vegan && (trimmedCat.equals("Wegańskie", ignoreCase = true) || trimmedCat.equals("vegan", ignoreCase = true))) ||
-                    (meat && (trimmedCat.equals("Mięsne", ignoreCase = true) || trimmedCat.equals("meat", ignoreCase = true))) ||
-                    (fish && (trimmedCat.equals("Ryby", ignoreCase = true) || trimmedCat.equals("Ryba", ignoreCase = true) || trimmedCat.equals("fish", ignoreCase = true)))
+                recipe.categories?.any { category ->
+                    val trimmedName = category.name.trim()
+                    val slug = category.slug.lowercase()
+                    (vege && (trimmedName.equals("Wegetariańskie", ignoreCase = true) || slug == "vegetarian")) ||
+                    (vegan && (trimmedName.equals("Wegańskie", ignoreCase = true) || slug == "vegan")) ||
+                    (meat && (trimmedName.equals("Mięsne", ignoreCase = true) || slug == "meat")) ||
+                    (fish && (trimmedName.equals("Ryby", ignoreCase = true) || trimmedName.equals("Ryba", ignoreCase = true) || slug == "fish"))
                 } ?: false
             }
 
             // 3. Meal Type Filter (Exact OR-Match with Polish & English fallback)
-            // LUNCH is cbMealLunch (text: "Lunch"). LUNCH in DB matches "Obiad" (slug "lunch").
-            // DINNER is cbMealDinner (text: "Obiad"). DINNER in DB matches "Kolacja" (slug "dinner").
-            // So if dinner is checked, we also match "Obiad"! If lunch is checked, we also match "Obiad"!
             val mealMatches = if (!breakfast && !lunch && !dinner && !dessert && !snacks) {
                 true
             } else {
-                recipe.categories?.any { cat ->
-                    val trimmedCat = cat.trim()
-                    (breakfast && (trimmedCat.equals("Śniadanie", ignoreCase = true) || trimmedCat.equals("breakfast", ignoreCase = true))) ||
-                    (lunch && (trimmedCat.equals("Obiad", ignoreCase = true) || trimmedCat.equals("lunch", ignoreCase = true))) ||
-                    (dinner && (trimmedCat.equals("Kolacja", ignoreCase = true) || trimmedCat.equals("Obiad", ignoreCase = true) || trimmedCat.equals("dinner", ignoreCase = true) || trimmedCat.equals("lunch", ignoreCase = true))) ||
-                    (dessert && (trimmedCat.equals("Deser", ignoreCase = true) || trimmedCat.equals("dessert", ignoreCase = true))) ||
-                    (snacks && (trimmedCat.equals("Szybkie przekąski", ignoreCase = true) || trimmedCat.equals("Przekąski", ignoreCase = true) || trimmedCat.equals("snacks", ignoreCase = true)))
+                recipe.categories?.any { category ->
+                    val trimmedName = category.name.trim()
+                    val slug = category.slug.lowercase()
+                    (breakfast && (trimmedName.equals("Śniadanie", ignoreCase = true) || slug == "breakfast")) ||
+                    (lunch && (trimmedName.equals("Obiad", ignoreCase = true) || slug == "lunch")) ||
+                    (dinner && (trimmedName.equals("Kolacja", ignoreCase = true) || trimmedName.equals("Obiad", ignoreCase = true) || slug == "dinner" || slug == "lunch")) ||
+                    (dessert && (trimmedName.equals("Deser", ignoreCase = true) || slug == "dessert")) ||
+                    (snacks && (trimmedName.equals("Szybkie przekąski", ignoreCase = true) || trimmedName.equals("Przekąski", ignoreCase = true) || slug == "snacks"))
                 } ?: false
             }
 

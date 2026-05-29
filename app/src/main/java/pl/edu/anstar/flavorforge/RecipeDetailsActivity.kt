@@ -98,20 +98,22 @@ class RecipeDetailsActivity : AppCompatActivity() {
     }
 
     private fun displayDetails(details: RecipeDetails) {
-        tvTitle.text = details.title
-        tvDescription.text = details.description
+        val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
+        
+        tvTitle.text = details.getTitle(language)
+        tvDescription.text = details.getDescription(language)
 
         val cats = details.categories
         if (!cats.isNullOrEmpty()) {
             layoutCategories.visibility = android.view.View.VISIBLE
-            tvCategories.text = cats.joinToString(" • ")
+            tvCategories.text = cats.joinToString(" • ") { it.name }
         } else {
             layoutCategories.visibility = android.view.View.GONE
         }
 
         val instructionsText = details.instructions
             ?.sortedBy { it.step }
-            ?.joinToString("\n\n") { "${it.step}. ${it.text}" }
+            ?.joinToString("\n\n") { "${it.step}. ${it.getText(language)}" }
             ?: "Brak instrukcji."
         tvInstructions.text = instructionsText
 

@@ -9,8 +9,9 @@ class SearchRecipesUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         ingredients: List<String>,
-        maxMissing: Int = 2
+        maxMissing: Int = 2,
+        language: String = "pl"
     ): Result<List<RecipeSearchResult>> {
-        return repository.searchRecipes(ingredients, maxMissing)
+        return repository.searchRecipes(ingredients, maxMissing, language)
     }
 }
