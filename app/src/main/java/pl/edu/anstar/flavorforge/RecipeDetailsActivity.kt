@@ -3,6 +3,7 @@ package pl.edu.anstar.flavorforge
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -39,6 +40,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_details)
+        Log.d(TAG, "onCreate: Activity started")
 
         tvTitle = findViewById(R.id.tvRecipeTitle)
         ivImage = findViewById(R.id.ivRecipeImage)
@@ -49,9 +51,13 @@ class RecipeDetailsActivity : AppCompatActivity() {
         layoutCategories = findViewById(R.id.layoutCategories)
         tvCategories = findViewById(R.id.tvRecipeCategories)
 
-        btnBack.setOnClickListener { finish() }
+        btnBack.setOnClickListener {
+            Log.d(TAG, "btnBack: Back button clicked")
+            finish()
+        }
 
         val recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, -1)
+        Log.d(TAG, "onCreate: recipeId = $recipeId")
         if (recipeId != -1) {
             val isFavorite = sessionManager.isFavorite(recipeId)
             if (isFavorite) {
@@ -61,10 +67,13 @@ class RecipeDetailsActivity : AppCompatActivity() {
             }
 
             btnFavorite.setOnClickListener {
+                Log.d(TAG, "btnFavorite: Clicked")
                 if (!sessionManager.isLoggedIn()) {
+                    Log.d(TAG, "btnFavorite: User not logged in")
                     Toast.makeText(this, "Zaloguj się, aby zapisywać ulubione przepisy!", Toast.LENGTH_SHORT).show()
                 } else {
                     val currentlyFavorite = sessionManager.isFavorite(recipeId)
+                    Log.d(TAG, "btnFavorite: currentlyFavorite = $currentlyFavorite")
                     if (currentlyFavorite) {
                         sessionManager.removeFavorite(recipeId)
                         btnFavorite.setColorFilter(Color.parseColor("#E8EBEE"))
@@ -85,12 +94,15 @@ class RecipeDetailsActivity : AppCompatActivity() {
     }
 
     private fun loadRecipeDetails(id: Int) {
+        Log.d(TAG, "loadRecipeDetails: Loading recipe with id = $id")
         lifecycleScope.launch {
             repository.getRecipeDetails(id).fold(
                 onSuccess = { details ->
+                    Log.d(TAG, "loadRecipeDetails: Success")
                     displayDetails(details)
                 },
                 onFailure = {
+                    Log.e(TAG, "loadRecipeDetails: Failure", it)
                     Toast.makeText(this@RecipeDetailsActivity, "Błąd pobierania szczegółów", Toast.LENGTH_SHORT).show()
                 }
             )
@@ -98,6 +110,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
     }
 
     private fun displayDetails(details: RecipeDetails) {
+        Log.d(TAG, "displayDetails: Displaying details for recipe: ${details.id}")
         val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
         
         tvTitle.text = details.getTitle(language)
@@ -111,10 +124,10 @@ class RecipeDetailsActivity : AppCompatActivity() {
             layoutCategories.visibility = android.view.View.GONE
         }
 
-        val instructionsText = details.instructions
-            ?.sortedBy { it.step }
-            ?.joinToString("\n\n") { "${it.step}. ${it.getText(language)}" }
-            ?: "Brak instrukcji."
+        val instructionsText = details.getInstructions(language)
+            .sortedBy { it.step }
+            .joinToString("\n\n") { "${it.step}. ${it.getText(language)}" }
+            .ifEmpty { "Brak instrukcji." }
         tvInstructions.text = instructionsText
 
         Glide.with(this)
@@ -125,9 +138,11 @@ class RecipeDetailsActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val TAG = "RecipeDetailsActivity"
         private const val EXTRA_RECIPE_ID = "extra_recipe_id"
 
         fun start(context: Context, recipeId: Int) {
+            Log.d(TAG, "start: Starting activity with recipeId = $recipeId")
             val intent = Intent(context, RecipeDetailsActivity::class.java).apply {
                 putExtra(EXTRA_RECIPE_ID, recipeId)
             }
