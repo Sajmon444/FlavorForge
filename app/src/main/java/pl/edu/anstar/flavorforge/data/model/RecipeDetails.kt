@@ -84,7 +84,35 @@ data class RecipeIngredient(
     @SerializedName("is_optional") val isOptional: Boolean,
 
     @SerializedName("ingredients") val ingredientDetails: IngredientInnerDetails?
-)
+) {
+    fun getUnit(language: String): String {
+        if (unit == null) return ""
+        if (language != "en") return unit
+
+        return when (unit.lowercase()) {
+            "g" -> "g"
+            "garść" -> "handful"
+            "kawałek" -> "piece"
+            "kg" -> "kg"
+            "kromki" -> "slices"
+            "liście" -> "leaves"
+            "łyżeczka" -> "teaspoon"
+            "łyżeczki" -> "teaspoons"
+            "łyżka" -> "tablespoon"
+            "łyżki" -> "tablespoons"
+            "ml" -> "ml"
+            "opakowanie" -> "package"
+            "pęczek" -> "bunch"
+            "plastry" -> "slices"
+            "puszka" -> "can"
+            "szczypta" -> "pinch"
+            "szt" -> "pcs"
+            "ząbek" -> "clove"
+            "ząbki" -> "cloves"
+            else -> unit
+        }
+    }
+}
 
 
 data class IngredientInnerDetails(

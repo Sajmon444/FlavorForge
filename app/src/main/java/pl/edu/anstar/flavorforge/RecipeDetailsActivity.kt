@@ -144,7 +144,8 @@ class RecipeDetailsActivity : AppCompatActivity() {
                             if (recipeIngredient.quantity == amountInt.toDouble()) "$amountInt " else "${recipeIngredient.quantity} "
                         } else ""
 
-                        val unitText = if (!recipeIngredient.unit.isNullOrEmpty()) "${recipeIngredient.unit} " else ""
+                        val translatedUnit = recipeIngredient.getUnit(language)
+                        val unitText = if (translatedUnit.isNotEmpty()) "$translatedUnit " else ""
 
                         // Opcjonalny dopisek, jeśli składnik nie jest wymagany
                         val optionalText = if (recipeIngredient.isOptional) " (opcjonalnie)" else ""
