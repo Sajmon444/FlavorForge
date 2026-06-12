@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.anstar.flavorforge.data.local.SessionManager
 import pl.edu.anstar.flavorforge.ui.signin.SignInViewModel
@@ -22,6 +23,7 @@ class SignInActivity : AppCompatActivity() {
     private val viewModel: SignInViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         if (viewModel.isUserLoggedIn()) {

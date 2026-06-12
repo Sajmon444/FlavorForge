@@ -71,6 +71,9 @@ dependencies {
     implementation(libs.androidx.activity)  // ← klasyczna Activity, nie compose
     implementation(libs.androidx.constraintlayout)
 
+    // Splash Screen API
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
     // COMPOSE
     // implementation(libs.androidx.compose.ui)
     // implementation(libs.androidx.compose.ui.tooling.preview)

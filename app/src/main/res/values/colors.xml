@@ -10,4 +10,6 @@
     <!-- Poprawione kolory -->
     <color name="background">#AEB6C2</color> <!-- lekko ciemniejsze tło -->
     <color name="dark_blue">#FF6A3D</color>
+
+    <color name="splash_background">#2F4877</color>
 </resources>
