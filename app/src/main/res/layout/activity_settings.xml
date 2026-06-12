@@ -46,23 +46,6 @@
             android:overlapAnchor="false"
             android:layout_marginBottom="24dp" />
 
-        <!-- Unit Selection -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/AppTextNormal_light_grey"
-            android:text="@string/settings_units"
-            android:layout_marginBottom="4dp" />
-
-        <Spinner
-            android:id="@+id/unitSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@drawable/spinner_bg"
-            android:popupBackground="@drawable/spinner_dropdown_bg"
-            android:spinnerMode="dropdown"
-            android:overlapAnchor="false"
-            android:layout_marginBottom="24dp" />
         <!-- Theme Selection -->
         <TextView
             android:layout_width="match_parent"

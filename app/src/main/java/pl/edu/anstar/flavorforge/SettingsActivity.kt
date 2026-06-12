@@ -24,7 +24,6 @@ class SettingsActivity : AppCompatActivity() {
     lateinit var sessionManager: SessionManager
 
     private lateinit var languageSpinner: Spinner
-    private lateinit var unitSpinner: Spinner
     private lateinit var themeSpinner: Spinner
 
     private lateinit var timeSeekBar: SeekBar
@@ -39,7 +38,6 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         languageSpinner = findViewById(R.id.languageSpinner)
-        unitSpinner = findViewById(R.id.unitSpinner)
         themeSpinner = findViewById(R.id.themeSpinner)
 
         timeSeekBar = findViewById(R.id.timeSeekBar)
@@ -48,7 +46,6 @@ class SettingsActivity : AppCompatActivity() {
         tvCaloriesLabel = findViewById(R.id.tvCaloriesLabel)
 
         setupLanguageSpinner()
-        setupUnitSpinner()
         setupThemeSpinner()
         setupTimeSeekBar()
         setupCaloriesSeekBar()
@@ -98,27 +95,6 @@ class SettingsActivity : AppCompatActivity() {
                     prefs.edit().putString("app_lang", selectedLanguageCode).apply()
                     sessionManager.applySettings(this@SettingsActivity)
                 }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-    }
-
-    // -------------------------------
-    // UNITS
-    // -------------------------------
-    private fun setupUnitSpinner() {
-        val units = arrayOf(getString(R.string.unit_metric), getString(R.string.unit_imperial))
-
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, units)
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        unitSpinner.adapter = adapter
-
-        unitSpinner.setSelection(0)
-
-        unitSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}

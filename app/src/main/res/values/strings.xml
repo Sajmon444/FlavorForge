@@ -101,9 +101,6 @@
     <string name="settings_language">Language</string>
     <string name="lang_en">English</string>
     <string name="lang_pl">Polish</string>
-    <string name="settings_units">Measurement Units</string>
-    <string name="unit_metric">Metric (g, ml)</string>
-    <string name="unit_imperial">Imperial (oz, lb)</string>
     <string name="settings_description">Adjust your recipe search preferences.</string>
     <string name="settings_time_label">Max preparation time: %d min</string>
     <string name="settings_calories">Max calories: %d kcal</string>
