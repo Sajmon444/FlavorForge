@@ -118,7 +118,7 @@ class SettingsActivity : AppCompatActivity() {
 
         unitSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // tu możesz dodać zapis do prefs jeśli chcesz
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -144,7 +144,7 @@ class SettingsActivity : AppCompatActivity() {
         val prefs = sessionManager.getSettingsPrefs(this)
         val savedTheme = prefs.getString("app_theme", "system")
 
-        // 🔥 Ustawiamy spinner zgodnie z zapisanym motywem
+
         when (savedTheme) {
             "light" -> themeSpinner.setSelection(0)
             "dark" -> themeSpinner.setSelection(1)

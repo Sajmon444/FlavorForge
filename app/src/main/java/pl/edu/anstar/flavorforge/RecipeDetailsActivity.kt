@@ -2,18 +2,19 @@ package pl.edu.anstar.flavorforge
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import android.graphics.Color
 import pl.edu.anstar.flavorforge.data.local.SessionManager
 import pl.edu.anstar.flavorforge.data.model.RecipeDetails
 import pl.edu.anstar.flavorforge.domain.repository.RecipeRepository
@@ -34,8 +35,9 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private lateinit var tvInstructions: TextView
     private lateinit var btnBack: ImageView
     private lateinit var btnFavorite: ImageView
-    private lateinit var layoutCategories: android.view.View
+    private lateinit var layoutCategories: View
     private lateinit var tvCategories: TextView
+    private lateinit var layoutIngredients: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         btnFavorite = findViewById(R.id.btnFavorite)
         layoutCategories = findViewById(R.id.layoutCategories)
         tvCategories = findViewById(R.id.tvRecipeCategories)
+        layoutIngredients = findViewById(R.id.layoutIngredients)
 
         btnBack.setOnClickListener {
             Log.d(TAG, "btnBack: Back button clicked")
@@ -112,30 +115,74 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private fun displayDetails(details: RecipeDetails) {
         Log.d(TAG, "displayDetails: Displaying details for recipe: ${details.id}")
         val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
-        
+
         tvTitle.text = details.getTitle(language)
         tvDescription.text = details.getDescription(language)
 
+
         val cats = details.categories
         if (!cats.isNullOrEmpty()) {
-            layoutCategories.visibility = android.view.View.VISIBLE
-            tvCategories.text = cats.joinToString(" • ") { it.name }
+            layoutCategories.visibility = View.VISIBLE
+            tvCategories.text = cats.joinToString(" • ") { it.getName(language) }
         } else {
-            layoutCategories.visibility = android.view.View.GONE
+            layoutCategories.visibility = View.GONE
         }
 
+        // Obsługa Składników
+        layoutIngredients.removeAllViews()
+        val ingrs = details.recipeIngredients
+
+        if (!ingrs.isNullOrEmpty()) {
+            ingrs.forEach { recipeIngredient ->
+                val ingredientName = recipeIngredient.ingredientDetails?.getName(language) ?: ""
+
+                if (ingredientName.isNotEmpty()) {
+                    val textView = TextView(this).apply {
+
+                        val formatAmount = if (recipeIngredient.quantity > 0) {
+                            val amountInt = recipeIngredient.quantity.toInt()
+                            if (recipeIngredient.quantity == amountInt.toDouble()) "$amountInt " else "${recipeIngredient.quantity} "
+                        } else ""
+
+                        val unitText = if (!recipeIngredient.unit.isNullOrEmpty()) "${recipeIngredient.unit} " else ""
+
+                        // Opcjonalny dopisek, jeśli składnik nie jest wymagany
+                        val optionalText = if (recipeIngredient.isOptional) " (opcjonalnie)" else ""
+
+                        text = "• $formatAmount$unitText$ingredientName$optionalText"
+                        textSize = 16f
+                        setTextColor(Color.parseColor("#E8EBEE"))
+                        setPadding(0, 6.toPx(), 0, 6.toPx())
+                    }
+                    layoutIngredients.addView(textView)
+                }
+            }
+        } else {
+            val emptyTextView = TextView(this).apply {
+                text = "Brak składników dla tego przepisu."
+                textSize = 14f
+                setTextColor(Color.GRAY)
+                setPadding(0, 6.toPx(), 0, 6.toPx())
+            }
+            layoutIngredients.addView(emptyTextView)
+        }
+
+        // Obsługa Instrukcji
         val instructionsText = details.getInstructions(language)
             .sortedBy { it.step }
             .joinToString("\n\n") { "${it.step}. ${it.getText(language)}" }
             .ifEmpty { "Brak instrukcji." }
         tvInstructions.text = instructionsText
 
+        // Obsługa obrazka za pomocą Glide
         Glide.with(this)
             .load(details.imageUrl)
             .placeholder(android.R.drawable.ic_menu_gallery)
             .error(android.R.drawable.ic_menu_report_image)
             .into(ivImage)
     }
+
+    private fun Int.toPx(): Int = (this * resources.displayMetrics.density).toInt()
 
     companion object {
         private const val TAG = "RecipeDetailsActivity"

@@ -18,8 +18,12 @@ interface RecipeApiService {
     @GET("/rest/v1/recipes")
     suspend fun getRecipesByIds(@Query("id") idFilter: String): Response<List<RecipeSearchResult>>
 
+
     @GET("/rest/v1/recipes")
-    suspend fun getRecipeDetails(@Query("id") idFilter: String): Response<List<RecipeDetails>>
+    suspend fun getRecipeDetails(
+        @Query("select") select: String,
+        @Query("id") idFilter: String
+    ): Response<List<RecipeDetails>>
 
     @GET("/rest/v1/recipe_categories?select=recipe_id,categories(name,slug)")
     suspend fun getAllRecipeCategories(): Response<List<RecipeCategoryMapping>>
@@ -34,4 +38,3 @@ data class CategoryInfoWrapper(
     @SerializedName("name") val name: JsonElement,
     @SerializedName("slug") val slug: String
 )
-

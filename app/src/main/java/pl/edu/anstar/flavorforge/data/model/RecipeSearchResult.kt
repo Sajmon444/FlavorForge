@@ -45,6 +45,18 @@ data class RecipeSearchResult(
 }
 
 data class Category(
-    @SerializedName("name") val name: String,
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: JsonElement,
     @SerializedName("slug") val slug: String
-)
+) {
+
+    fun getName(language: String): String {
+        if (name.isJsonNull) return ""
+        if (name.isJsonPrimitive) return name.asString
+        return try {
+            val obj = name.asJsonObject
+            if (obj.has(language)) obj.get(language).asString
+            else obj.get("en")?.asString ?: obj.get("pl")?.asString ?: ""
+        } catch (e: Exception) { "" }
+    }
+}

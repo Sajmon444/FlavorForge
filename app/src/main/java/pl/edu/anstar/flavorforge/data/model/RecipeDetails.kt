@@ -14,30 +14,31 @@ data class RecipeDetails(
     @SerializedName("difficulty") val difficulty: String?,
     @SerializedName("image_url") val imageUrl: String?,
     @SerializedName("calories_total") val caloriesTotal: Int?,
-    @SerializedName("categories") val categories: List<Category>? = null
+    @SerializedName("categories") val categories: List<Category>? = null,
+
+
+    @SerializedName("recipe_ingredients") val recipeIngredients: List<RecipeIngredient>? = null
 ) {
     fun getTitle(language: String): String = parseTranslated(title, language)
     fun getDescription(language: String): String = parseTranslated(description, language)
 
     fun getInstructions(language: String): List<InstructionStep> {
         if (instructions == null || instructions.isJsonNull) return emptyList()
-        
+
         return try {
             val gson = Gson()
             val listType = object : TypeToken<List<InstructionStep>>() {}.type
-            
+
             if (instructions.isJsonArray) {
-                // If it's already an array (old format)
                 gson.fromJson(instructions, listType)
             } else if (instructions.isJsonObject) {
-                // If it's a translated object (new format)
                 val obj = instructions.asJsonObject
                 val langElement = if (obj.has(language)) {
                     obj.get(language)
                 } else {
                     obj.get("en") ?: obj.get("pl")
                 }
-                
+
                 if (langElement != null && langElement.isJsonArray) {
                     gson.fromJson(langElement, listType)
                 } else {
@@ -70,6 +71,31 @@ data class InstructionStep(
         if (text.isJsonPrimitive) return text.asString
         return try {
             val obj = text.asJsonObject
+            if (obj.has(language)) obj.get(language).asString
+            else obj.get("en")?.asString ?: obj.get("pl")?.asString ?: ""
+        } catch (e: Exception) { "" }
+    }
+}
+
+// Model reprezentujący wiersz z tabeli recipe_ingredients
+data class RecipeIngredient(
+    @SerializedName("quantity") val quantity: Double,
+    @SerializedName("unit") val unit: String?,
+    @SerializedName("is_optional") val isOptional: Boolean,
+
+    @SerializedName("ingredients") val ingredientDetails: IngredientInnerDetails?
+)
+
+
+data class IngredientInnerDetails(
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: JsonElement
+) {
+    fun getName(language: String): String {
+        if (name.isJsonNull) return ""
+        if (name.isJsonPrimitive) return name.asString
+        return try {
+            val obj = name.asJsonObject
             if (obj.has(language)) obj.get(language).asString
             else obj.get("en")?.asString ?: obj.get("pl")?.asString ?: ""
         } catch (e: Exception) { "" }

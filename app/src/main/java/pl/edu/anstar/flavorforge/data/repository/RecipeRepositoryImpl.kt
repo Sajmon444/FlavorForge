@@ -1,5 +1,6 @@
 package pl.edu.anstar.flavorforge.data.repository
 
+import android.util.Log
 import pl.edu.anstar.flavorforge.data.model.RecipeDetails
 import pl.edu.anstar.flavorforge.data.model.RecipeSearchResult
 import pl.edu.anstar.flavorforge.data.model.SearchRequest
@@ -24,7 +25,7 @@ class RecipeRepositoryImpl @Inject constructor(
                 val searchResults = response.body()!!
                 if (searchResults.isEmpty()) return Result.success(emptyList())
 
-                // Optional: Enrich with more details if not provided by search_recipes RPC
+
                 val ids = searchResults.joinToString(",") { it.id.toString() }
                 val detailsResponse = apiService.getRecipesByIds("in.($ids)")
 
@@ -55,7 +56,11 @@ class RecipeRepositoryImpl @Inject constructor(
 
     override suspend fun getRecipeDetails(id: Int): Result<RecipeDetails> {
         return try {
-            val response = apiService.getRecipeDetails("eq.$id")
+
+            val selectStructure = "*,categories(*),recipe_ingredients(*,ingredients(*))"
+
+            val response = apiService.getRecipeDetails(selectStructure, "eq.$id")
+
             if (response.isSuccessful && !response.body().isNullOrEmpty()) {
                 val details = response.body()!!.first()
                 Result.success(details)
@@ -63,6 +68,7 @@ class RecipeRepositoryImpl @Inject constructor(
                 Result.failure(Exception("Nie znaleziono szczegółów przepisu"))
             }
         } catch (e: Exception) {
+            Log.e("RecipeRepositoryImpl", "getRecipeDetails error for id: $id", e)
             Result.failure(e)
         }
     }

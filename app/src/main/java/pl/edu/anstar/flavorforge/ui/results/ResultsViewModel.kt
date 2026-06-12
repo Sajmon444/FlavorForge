@@ -23,8 +23,8 @@ class ResultsViewModel @Inject constructor(
     private var allRecipes: List<RecipeSearchResult> = emptyList()
 
     fun searchRecipes(ingredients: List<String>, maxMissing: Int, onComplete: () -> Unit = { clearFilters() }) {
-        val language = java.util.Locale.getDefault().language.let { 
-            if (it == "pl" || it == "en") it else "en" 
+        val language = java.util.Locale.getDefault().language.let {
+            if (it == "pl" || it == "en") it else "en"
         }
         viewModelScope.launch {
             searchUseCase(ingredients, maxMissing, language).fold(
@@ -53,6 +53,7 @@ class ResultsViewModel @Inject constructor(
         dessert: Boolean,
         snacks: Boolean
     ) {
+        val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
         val sp = sessionManager.getSettingsPrefs()
         val settingsPrepProgress = sp.getInt("settings_prep_time", 12)
         val settingsMaxTime = settingsPrepProgress * 15 // min
@@ -89,13 +90,17 @@ class ResultsViewModel @Inject constructor(
             val dietMatches = if (!vege && !vegan && !meat && !fish) {
                 true
             } else {
-                recipe.categories?.any { category ->
-                    val trimmedName = category.name.trim()
-                    val slug = category.slug.lowercase()
-                    (vege && (trimmedName.equals("Wegetariańskie", ignoreCase = true) || slug == "vegetarian")) ||
-                    (vegan && (trimmedName.equals("Wegańskie", ignoreCase = true) || slug == "vegan")) ||
-                    (meat && (trimmedName.equals("Mięsne", ignoreCase = true) || slug == "meat")) ||
-                    (fish && (trimmedName.equals("Ryby", ignoreCase = true) || trimmedName.equals("Ryba", ignoreCase = true) || slug == "fish"))
+                recipe.categories?.any { rawCategory ->
+                    // ROZWIĄZANIE: Rzutujemy obiekt na właściwą klasę Category z pl.edu.anstar.flavorforge.data.model
+                    val category = rawCategory as? pl.edu.anstar.flavorforge.data.model.Category
+                    if (category != null) {
+                        val trimmedName = category.getName(language).trim()
+                        val slug = category.slug.lowercase()
+                        (vege && (trimmedName.equals("Wegetariańskie", ignoreCase = true) || slug == "vegetarian")) ||
+                                (vegan && (trimmedName.equals("Wegańskie", ignoreCase = true) || slug == "vegan")) ||
+                                (meat && (trimmedName.equals("Mięsne", ignoreCase = true) || slug == "meat")) ||
+                                (fish && (trimmedName.equals("Ryby", ignoreCase = true) || trimmedName.equals("Ryba", ignoreCase = true) || slug == "fish"))
+                    } else false
                 } ?: false
             }
 
@@ -103,14 +108,18 @@ class ResultsViewModel @Inject constructor(
             val mealMatches = if (!breakfast && !lunch && !dinner && !dessert && !snacks) {
                 true
             } else {
-                recipe.categories?.any { category ->
-                    val trimmedName = category.name.trim()
-                    val slug = category.slug.lowercase()
-                    (breakfast && (trimmedName.equals("Śniadanie", ignoreCase = true) || slug == "breakfast")) ||
-                    (lunch && (trimmedName.equals("Obiad", ignoreCase = true) || slug == "lunch")) ||
-                    (dinner && (trimmedName.equals("Kolacja", ignoreCase = true) || trimmedName.equals("Obiad", ignoreCase = true) || slug == "dinner" || slug == "lunch")) ||
-                    (dessert && (trimmedName.equals("Deser", ignoreCase = true) || slug == "dessert")) ||
-                    (snacks && (trimmedName.equals("Szybkie przekąski", ignoreCase = true) || trimmedName.equals("Przekąski", ignoreCase = true) || slug == "snacks"))
+                recipe.categories?.any { rawCategory ->
+                    // ROZWIĄZANIE: Rzutujemy obiekt na właściwą klasę Category z pl.edu.anstar.flavorforge.data.model
+                    val category = rawCategory as? pl.edu.anstar.flavorforge.data.model.Category
+                    if (category != null) {
+                        val trimmedName = category.getName(language).trim()
+                        val slug = category.slug.lowercase()
+                        (breakfast && (trimmedName.equals("Śniadanie", ignoreCase = true) || slug == "breakfast")) ||
+                                (lunch && (trimmedName.equals("Obiad", ignoreCase = true) || slug == "lunch")) ||
+                                (dinner && (trimmedName.equals("Kolacja", ignoreCase = true) || trimmedName.equals("Obiad", ignoreCase = true) || slug == "dinner" || slug == "lunch")) ||
+                                (dessert && (trimmedName.equals("Deser", ignoreCase = true) || slug == "dessert")) ||
+                                (snacks && (trimmedName.equals("Szybkie przekąski", ignoreCase = true) || trimmedName.equals("Przekąski", ignoreCase = true) || slug == "snacks"))
+                    } else false
                 } ?: false
             }
 

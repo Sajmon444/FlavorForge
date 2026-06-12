@@ -28,34 +28,38 @@ class RecipesViewModel @Inject constructor(
     fun fetchLatestRecipes() {
         viewModelScope.launch {
             try {
-                val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
                 // "gt.0" fetches all recipes.
                 val response = apiService.getRecipesByIds("gt.0")
                 if (response.isSuccessful && response.body() != null) {
                     val recipesList = response.body()!!
-                    
+
                     // Fetch category mappings and enrich recipes list
                     val mappingsResponse = apiService.getAllRecipeCategories()
                     val enrichedRecipes = if (mappingsResponse.isSuccessful && mappingsResponse.body() != null) {
                         val mappings = mappingsResponse.body()!!
-                        
+
                         val categoryMap = mappings.groupBy(
                             keySelector = { it.recipeId },
                             valueTransform = { it.category }
-                        ).mapValues { entry -> 
+                        ).mapValues { entry ->
                             entry.value.filterNotNull().map { wrapper ->
-                                val name = parseJsonTranslated(wrapper.name, language)
-                                pl.edu.anstar.flavorforge.data.model.Category(name, wrapper.slug)
+                                // POPRAWKA: Przekazujemy surowy wrapper.name (JsonElement) oraz sztuczne id (np. 0),
+                                // ponieważ konstruktor Category oczekuje (id: Int, name: JsonElement, slug: String)
+                                pl.edu.anstar.flavorforge.data.model.Category(
+                                    id = 0,
+                                    name = wrapper.name,
+                                    slug = wrapper.slug
+                                )
                             }
                         }
-                        
+
                         recipesList.map { recipe ->
                             recipe.copy(categories = categoryMap[recipe.id] ?: emptyList())
                         }
                     } else {
                         recipesList
                     }
-                    
+
                     allRecipes = enrichedRecipes
                     // Initially apply settings filtering
                     clearFilters()
@@ -66,16 +70,6 @@ class RecipesViewModel @Inject constructor(
                 _error.value = "Error: ${e.message}"
             }
         }
-    }
-
-    private fun parseJsonTranslated(element: com.google.gson.JsonElement?, language: String): String {
-        if (element == null || element.isJsonNull) return ""
-        if (element.isJsonPrimitive) return element.asString
-        return try {
-            val obj = element.asJsonObject
-            if (obj.has(language)) obj.get(language).asString
-            else obj.get("en")?.asString ?: obj.get("pl")?.asString ?: ""
-        } catch (e: Exception) { "" }
     }
 
     fun filterRecipes(
@@ -94,6 +88,7 @@ class RecipesViewModel @Inject constructor(
         dessert: Boolean,
         snacks: Boolean
     ) {
+        val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
         val sp = sessionManager.getSettingsPrefs()
         val settingsPrepProgress = sp.getInt("settings_prep_time", 12)
         val settingsMaxTime = settingsPrepProgress * 15 // min
@@ -131,12 +126,13 @@ class RecipesViewModel @Inject constructor(
                 true
             } else {
                 recipe.categories?.any { category ->
-                    val trimmedName = category.name.trim()
+                    // POPRAWKA: Pobieramy tekst z JsonElement za pomocą metody getName(language)
+                    val trimmedName = category.getName(language).trim()
                     val slug = category.slug.lowercase()
                     (vege && (trimmedName.equals("Wegetariańskie", ignoreCase = true) || slug == "vegetarian")) ||
-                    (vegan && (trimmedName.equals("Wegańskie", ignoreCase = true) || slug == "vegan")) ||
-                    (meat && (trimmedName.equals("Mięsne", ignoreCase = true) || slug == "meat")) ||
-                    (fish && (trimmedName.equals("Ryby", ignoreCase = true) || trimmedName.equals("Ryba", ignoreCase = true) || slug == "fish"))
+                            (vegan && (trimmedName.equals("Wegańskie", ignoreCase = true) || slug == "vegan")) ||
+                            (meat && (trimmedName.equals("Mięsne", ignoreCase = true) || slug == "meat")) ||
+                            (fish && (trimmedName.equals("Ryby", ignoreCase = true) || trimmedName.equals("Ryba", ignoreCase = true) || slug == "fish"))
                 } ?: false
             }
 
@@ -145,20 +141,21 @@ class RecipesViewModel @Inject constructor(
                 true
             } else {
                 recipe.categories?.any { category ->
-                    val trimmedName = category.name.trim()
+                    // POPRAWKA: Pobieramy tekst z JsonElement za pomocą metody getName(language)
+                    val trimmedName = category.getName(language).trim()
                     val slug = category.slug.lowercase()
                     (breakfast && (trimmedName.equals("Śniadanie", ignoreCase = true) || slug == "breakfast")) ||
-                    (lunch && (trimmedName.equals("Obiad", ignoreCase = true) || slug == "lunch")) ||
-                    (dinner && (trimmedName.equals("Kolacja", ignoreCase = true) || trimmedName.equals("Obiad", ignoreCase = true) || slug == "dinner" || slug == "lunch")) ||
-                    (dessert && (trimmedName.equals("Deser", ignoreCase = true) || slug == "dessert")) ||
-                    (snacks && (trimmedName.equals("Szybkie przekąski", ignoreCase = true) || trimmedName.equals("Przekąski", ignoreCase = true) || slug == "snacks"))
+                            (lunch && (trimmedName.equals("Obiad", ignoreCase = true) || slug == "lunch")) ||
+                            (dinner && (trimmedName.equals("Kolacja", ignoreCase = true) || trimmedName.equals("Obiad", ignoreCase = true) || slug == "dinner" || slug == "lunch")) ||
+                            (dessert && (trimmedName.equals("Deser", ignoreCase = true) || slug == "dessert")) ||
+                            (snacks && (trimmedName.equals("Szybkie przekąski", ignoreCase = true) || trimmedName.equals("Przekąski", ignoreCase = true) || slug == "snacks"))
                 } ?: false
             }
 
             diffMatches && dietMatches && mealMatches
         }
         _recipes.value = filtered
-     }
+    }
 
     fun clearFilters() {
         filterRecipes(
