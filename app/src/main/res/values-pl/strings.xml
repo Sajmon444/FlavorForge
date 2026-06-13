@@ -111,9 +111,6 @@
     <string name="settings_language">Język</string>
     <string name="lang_en">Angielski</string>
     <string name="lang_pl">Polski</string>
-    <string name="settings_units">Jednostki miary</string>
-    <string name="unit_metric">Metryczne (g, ml)</string>
-    <string name="unit_imperial">Imperialne (oz, lb)</string>
     <string name="settings_description">Dostosuj preferencje wyszukiwania przepisów.</string>
     <string name="settings_time_label">Maksymalny czas przygotowania: %d min</string>
     <string name="settings_calories">Maksymalna kaloryczność: %d kcal</string>
