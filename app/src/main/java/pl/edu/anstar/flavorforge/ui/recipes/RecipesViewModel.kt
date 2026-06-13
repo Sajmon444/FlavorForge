@@ -25,7 +25,11 @@ class RecipesViewModel @Inject constructor(
 
     private var allRecipes: List<RecipeSearchResult> = emptyList()
 
-    fun fetchLatestRecipes() {
+    var isRecipesLoaded = false
+        private set
+
+    fun fetchLatestRecipes(onComplete: () -> Unit = { clearFilters() }) {
+        isRecipesLoaded = false
         viewModelScope.launch {
             try {
                 // "gt.0" fetches all recipes.
@@ -61,12 +65,14 @@ class RecipesViewModel @Inject constructor(
                     }
 
                     allRecipes = enrichedRecipes
-                    // Initially apply settings filtering
-                    clearFilters()
+                    isRecipesLoaded = true
+                    onComplete()
                 } else {
+                    isRecipesLoaded = true
                     _error.value = "Failed to fetch recipes: ${response.code()}"
                 }
             } catch (e: Exception) {
+                isRecipesLoaded = true
                 _error.value = "Error: ${e.message}"
             }
         }
@@ -88,6 +94,8 @@ class RecipesViewModel @Inject constructor(
         dessert: Boolean,
         snacks: Boolean
     ) {
+        if (!isRecipesLoaded) return
+
         val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
         val sp = sessionManager.getSettingsPrefs()
         val settingsPrepProgress = sp.getInt("settings_prep_time", 12)

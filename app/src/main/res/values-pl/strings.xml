@@ -123,6 +123,7 @@
     <string name="back_description">Wróć</string>
     <string name="liked_recipes_title">Ulubione przepisy</string>
     <string name="no_liked_recipes">Brak ulubionych przepisów.</string>
+    <string name="no_recipes">Brak przepisów.</string>
 
     <string name="logged_in_thanks">Dzięki, że korzystasz z naszej aplikacji!</string>
     <string name="loged_in">Zalogowano</string>

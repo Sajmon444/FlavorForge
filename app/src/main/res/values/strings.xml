@@ -128,6 +128,7 @@
     <string name="back_description">Back</string>
     <string name="liked_recipes_title">Favorite recipes</string>
     <string name="no_liked_recipes">No favorite recipes found.</string>
+    <string name="no_recipes">No recipes found.</string>
 
 
     <string-array name="ingredients_suggestions">

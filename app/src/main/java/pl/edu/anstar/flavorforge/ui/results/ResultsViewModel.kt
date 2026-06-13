@@ -22,7 +22,11 @@ class ResultsViewModel @Inject constructor(
 
     private var allRecipes: List<RecipeSearchResult> = emptyList()
 
+    var isRecipesLoaded = false
+        private set
+
     fun searchRecipes(ingredients: List<String>, maxMissing: Int, onComplete: () -> Unit = { clearFilters() }) {
+        isRecipesLoaded = false
         val language = java.util.Locale.getDefault().language.let {
             if (it == "pl" || it == "en") it else "en"
         }
@@ -30,9 +34,13 @@ class ResultsViewModel @Inject constructor(
             searchUseCase(ingredients, maxMissing, language).fold(
                 onSuccess = { results ->
                     allRecipes = results
+                    isRecipesLoaded = true
                     onComplete()
                 },
-                onFailure = { /* ignoruj błąd */ }
+                onFailure = { 
+                    isRecipesLoaded = true
+                    /* ignoruj błąd */ 
+                }
             )
         }
     }
@@ -53,6 +61,7 @@ class ResultsViewModel @Inject constructor(
         dessert: Boolean,
         snacks: Boolean
     ) {
+        if (!isRecipesLoaded) return
         val language = sessionManager.getSettingsPrefs().getString("app_lang", "pl") ?: "pl"
         val sp = sessionManager.getSettingsPrefs()
         val settingsPrepProgress = sp.getInt("settings_prep_time", 12)

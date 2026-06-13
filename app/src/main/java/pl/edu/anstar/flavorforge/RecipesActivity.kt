@@ -122,7 +122,11 @@ class RecipesActivity : AppCompatActivity() {
         observeViewModel()
         
         progressBar.visibility = View.VISIBLE
-        viewModel.fetchLatestRecipes()
+        viewModel.fetchLatestRecipes {
+            runOnUiThread {
+                applyCurrentFilters()
+            }
+        }
     }
 
     private fun observeViewModel() {
@@ -131,7 +135,7 @@ class RecipesActivity : AppCompatActivity() {
             adapter.submitList(recipes)
             tvError.visibility = if (recipes.isEmpty()) View.VISIBLE else View.GONE
             if (recipes.isEmpty()) {
-                tvError.text = "Brak przepisów."
+                tvError.setText(R.string.no_recipes)
             }
         }
 
