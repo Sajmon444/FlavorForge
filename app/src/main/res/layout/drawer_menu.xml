@@ -86,7 +86,7 @@
             android:drawableStart="@android:drawable/ic_lock_power_off"
             android:drawablePadding="8dp"
             style="@style/Button_drawer_menu"
-            android:text="Wyloguj"
+            android:text="@string/log_out"
             android:textColor="@color/orange"
             android:layout_marginTop="24dp" />
 

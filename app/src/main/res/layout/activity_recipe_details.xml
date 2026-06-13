@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Kategorie:"
+                    android:text="@string/recipe_categories"
                     android:textColor="@color/orange"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -113,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="Składniki:"
+                android:text="@string/recipe_ingredients"
                 android:textColor="@color/orange"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:text="Instrukcje:"
+                android:text="@string/recipe_instructions"
                 android:textColor="@color/orange"
                 android:textSize="20sp"
                 android:textStyle="bold" />

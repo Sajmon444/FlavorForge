@@ -95,6 +95,21 @@
 
     <!-- RECIPE DETAILS -->
     <string name="recipe_instructions_title">Instructions:</string>
+    <string name="recipe_ingredients">Ingredients:</string>
+    <string name="recipe_description">Description:</string>
+    <string name="recipe_categories">Categories:</string>
+    <string name="recipe_time">Preparation time:</string>"
+    <string name="recipe_calories">Calories:</string>
+    <string name="recipe_difficulty">Recipe Difficulty:</string>"
+    <string name="recipe_diet">Diet:</string>
+    <string name="recipe_meal">Type of meal:</string>"
+    <string name="recipe_instructions">Instructions:</string>
+
+    <string name="logged_in_thanks">Thanks for using our app!</string>
+    <string name="loged_in">Logged in</string>
+    <string name="not_loged_in">User not logged in</string>
+    <string name="favorite_recipes_prompt">Log in to save your favorite recipes and keep them always at hand!</string>
+
 
     <!-- SETTINGS -->
     <string name="settings_title">Settings</string>
@@ -112,6 +127,10 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_system">System</string>
+    <string name="log_out">Log out</string>
+    <string name="back_description">Back</string>
+    <string name="liked_recipes_title">Favorite recipes</string>
+    <string name="no_liked_recipes">No favorite recipes found.</string>
 
 
     <string-array name="ingredients_suggestions">

@@ -95,6 +95,16 @@
 
     <!-- RECIPE DETAILS -->
     <string name="recipe_instructions_title">Instrukcje:</string>
+    <string name="recipe_ingredients">Składniki:</string>
+    <string name="recipe_description">Opis:</string>
+    <string name="recipe_categories">Kategorie:</string>
+    <string name="recipe_time">Czas przygotowania:</string>"
+    <string name="recipe_calories">Kalorie:</string>
+    <string name="recipe_difficulty">Poziom trudności:</string>"
+    <string name="recipe_diet">Dieta:</string>
+    <string name="recipe_meal">Rodzaj posiłku:</string>"
+    <string name="recipe_instructions">Instrukcje:</string>
+
 
     <!-- SETTINGS -->
     <string name="settings_title">Ustawienia</string>
@@ -112,6 +122,15 @@
     <string name="theme_light">Jasny</string>
     <string name="theme_dark">Ciemny</string>
     <string name="theme_system">Systemowy</string>
+    <string name="log_out">Wyloguj się</string>
+    <string name="back_description">Wróć</string>
+    <string name="liked_recipes_title">Ulubione przepisy</string>
+    <string name="no_liked_recipes">Brak ulubionych przepisów.</string>
+
+    <string name="logged_in_thanks">Dzięki, że korzystasz z naszej aplikacji!</string>
+    <string name="loged_in">Zalogowano</string>
+    <string name="not_loged_in">Użytkownik niezalogowany</string>
+    <string name="favorite_recipes_prompt">Zaloguj się, aby zapisywać ulubione przepisy i mieć je zawsze pod ręką!</string>
 
     <string-array name="ingredients_suggestions">
         <item>Awokado</item>

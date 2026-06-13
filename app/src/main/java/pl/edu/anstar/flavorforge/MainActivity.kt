@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import dagger.hilt.android.AndroidEntryPoint
 import pl.edu.anstar.flavorforge.data.local.SessionManager
+
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,15 +35,16 @@ class MainActivity : AppCompatActivity() {
         val userSubHeader = findViewById<TextView>(R.id.tvUserSubHeader)
         val btnLogout = findViewById<Button>(R.id.btnLogout)
         val btnRegister = findViewById<Button>(R.id.btnRegister)
-        
+
+
         if (sessionManager.isLoggedIn()) {
-            val userName = sessionManager.getUserName() ?: "Zalogowany"
+            val userName = sessionManager.getUserName() ?: getString(R.string.loged_in)
             userHeader.text = userName
-            userSubHeader.text = "Dzięki, że korzystasz z naszej aplikacji."
+            userSubHeader.text = getString(R.string.logged_in_thanks)
             btnLogout.visibility = android.view.View.VISIBLE
             btnRegister.visibility = android.view.View.GONE
         } else {
-            userHeader.text = "Użytkownik niezalogowany"
+            userHeader.text = getString(R.string.not_loged_in)
             userSubHeader.text = getString(R.string.register_for_free)
             btnLogout.visibility = android.view.View.GONE
             btnRegister.visibility = android.view.View.VISIBLE
@@ -58,7 +60,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
-
 
         findViewById<ImageView>(R.id.logo).setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
@@ -81,9 +82,10 @@ class MainActivity : AppCompatActivity() {
             if (sessionManager.isLoggedIn()) {
                 startActivity(Intent(this, LikedActivity::class.java))
             } else {
+
                 android.widget.Toast.makeText(
                     this,
-                    "Zaloguj się, aby zapisywać ulubione przepisy i mieć je zawsze pod ręką!",
+                    getString(R.string.favorite_recipes_prompt),
                     android.widget.Toast.LENGTH_LONG
                 ).show()
             }
@@ -113,6 +115,5 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.END)
             startActivity(Intent(this, RecipesActivity::class.java))
         }
-
     }
 }

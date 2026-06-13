@@ -40,11 +40,9 @@ class LikedActivity : AppCompatActivity() {
             finish()
         }
 
-        // Initialize RecipesAdapter with dynamic favorites click callback
         adapter = RecipesAdapter(sessionManager, { recipeId ->
             RecipeDetailsActivity.start(this, recipeId)
         }, { _ ->
-            // Instantly refresh list when unfavoriting from list
             loadFavorites()
         })
 
@@ -56,7 +54,6 @@ class LikedActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Refresh every time screen becomes active (syncs changes from RecipeDetailsActivity)
         loadFavorites()
     }
 
@@ -68,6 +65,14 @@ class LikedActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.recipes.observe(this) { recipes ->
             adapter.submitList(recipes)
+            // Bezpiecznik: Jeśli lista z serwera przyjdzie pusta i nie ma błędu,
+            // również wyświetlamy komunikat o braku ulubionych przepisów
+            if (recipes.isNullOrEmpty() && viewModel.error.value == null) {
+                tvError.visibility = View.VISIBLE
+                tvError.text = getString(R.string.no_liked_recipes)
+            } else if (!recipes.isNullOrEmpty()) {
+                tvError.visibility = View.GONE
+            }
         }
 
         viewModel.isLoading.observe(this) { isLoading ->
@@ -77,9 +82,22 @@ class LikedActivity : AppCompatActivity() {
         viewModel.error.observe(this) { errorMessage ->
             if (errorMessage != null) {
                 tvError.visibility = View.VISIBLE
-                tvError.text = errorMessage
+
+                // POPRAWKA: Jeśli błąd to informacja o pustej liście (niezależnie jak przekazana z VM),
+                // podmieniamy ją na dynamiczny zasób językowy. W innym wypadku wyświetlamy surowy błąd sieciowy.
+                if (errorMessage.contains("Brak", ignoreCase = true) || errorMessage.contains("empty", ignoreCase = true) || errorMessage.isBlank()) {
+                    tvError.text = getString(R.string.no_liked_recipes)
+                } else {
+                    tvError.text = errorMessage
+                }
             } else {
-                tvError.visibility = View.GONE
+                // Jeśli błąd zniknął, ale lista dalej jest pusta, to `recipes.observe` powyżej zadba o poprawny tekst
+                if (viewModel.recipes.value.isNullOrEmpty()) {
+                    tvError.visibility = View.VISIBLE
+                    tvError.text = getString(R.string.no_liked_recipes)
+                } else {
+                    tvError.visibility = View.GONE
+                }
             }
         }
     }
